@@ -1,38 +1,53 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import axios from 'axios';
 
-type VerificationScreenProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Verification'
->;
+type VerificationScreenProp = NativeStackNavigationProp<RootStackParamList, 'Verification'>;
+type VerificationScreenRouteProp = RouteProp<RootStackParamList, 'Verification'>;
 
 export default function VerificationScreen() {
   const navigation = useNavigation<VerificationScreenProp>();
-  const route = useRoute();
-  const { email, mobile } = route.params as { email: string; mobile: string };
+  const route = useRoute<VerificationScreenRouteProp>();
+  const { email, mobile, userId } = route.params; // Include userId
+
+  // Log params to debug
+  console.log('VerificationScreen params:', { email, mobile, userId });
 
   const handleResendVerification = async () => {
     try {
-      // You can call a resend endpoint here if you have one
-      Alert.alert('Resent', 'Verification link or OTP has been resent successfully.');
-    } catch (error) {
-      Alert.alert('Error', 'Failed to resend verification. Please try again.');
+      // Call resend endpoints for email and OTP
+      await axios.post('http://10.0.2.2:5017/api/auth/requesttoken', { email });
+      await axios.post('http://10.0.2.2:5017/api/auth/requestotp', { mobile });
+      Alert.alert('Success', 'Verification link and OTP have been resent successfully.');
+    } catch (error: any) {
+      console.error('Resend Verification Error:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      Alert.alert(
+        'Error',
+        error.response?.data?.error || 'Failed to resend verification. Please try again.'
+      );
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.navigate('Home')}
+      >
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={styles.title}>Verification Required</Text>
       <Text style={styles.subtitle}>
-        Your account has been created successfully. Please verify your email or mobile number.
+        Your account has been created successfully. Please verify your email and mobile number.
       </Text>
 
       <TouchableOpacity style={styles.button} onPress={handleResendVerification}>
@@ -41,7 +56,7 @@ export default function VerificationScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('VerificationOptions', { email, mobile })}
+        onPress={() => navigation.navigate('VerificationOptions', { email, mobile, userId })}
       >
         <Text style={styles.buttonText}>Proceed to Verification</Text>
       </TouchableOpacity>

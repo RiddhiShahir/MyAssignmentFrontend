@@ -103,6 +103,7 @@ export default function RegisterScreen() {
       console.log('Register response:', response.data);
 
       if (response.status === 200) {
+        const { userId } = response.data; // get userId
         Alert.alert(
           'Registration Successful',
           'Verification links have been sent to your email and mobile.',
@@ -113,6 +114,7 @@ export default function RegisterScreen() {
                 navigation.navigate('Verification', {
                   email: form.email,
                   mobile: form.mobile,
+                  userId
                 }),
             },
           ]

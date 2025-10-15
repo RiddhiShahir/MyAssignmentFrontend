@@ -14,17 +14,46 @@ export default function HomeScreen() {
       <Text style={styles.title}>Welcome to UserAuth & Login App</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Register')}
-      >
+        onPress={() => navigation.navigate('Register')} >
         <Text style={styles.buttonText}>Register User</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')} >
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#101820FF' },
-  title: { color: 'white', fontSize: 22, marginBottom: 30 },
-  button: { backgroundColor: 'white', paddingVertical: 12, paddingHorizontal: 25, borderRadius: 8 },
-  buttonText: { color: '#101820FF', fontSize: 16, fontWeight: 'bold' },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#0b132b',
+    padding: 20,
+  },
+  title: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: '600',
+    marginBottom: 40,
+    textAlign: 'center',
+  },
+  button: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingVertical: 14,
+    width: '70%',         // ✅ both buttons same width
+    marginVertical: 10,   // ✅ adds spacing between buttons
+  },
+  buttonText: {
+    color: '#101820FF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });

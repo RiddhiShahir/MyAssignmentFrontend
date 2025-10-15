@@ -10,6 +10,8 @@ import VerificationOptionsScreen from './src/screens/VerificationOptionsScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import ChangePasswordScreen from './src/screens/ChangePasswordScreen'; 
+import DashboardScreen from './src/screens/DashboardScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,6 +25,7 @@ export type RootStackParamList = {
   ResetPassword: { email: string };
   ChangePassword: undefined;
   Login: undefined;
+  Dashboard: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -40,6 +43,8 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

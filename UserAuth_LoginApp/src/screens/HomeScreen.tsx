@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Login')} >
+        onPress={() => navigation.navigate('LoginOptions')} >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 

@@ -64,7 +64,7 @@ export default function DashboardScreen() {
       await AsyncStorage.removeItem('refreshToken');
       await AsyncStorage.removeItem('userId');
       Alert.alert('Success', 'Logged out successfully');
-      navigation.navigate('Login');
+      navigation.navigate('Home');
     } catch (error: any) {
       console.error('Logout error:', error);
       Alert.alert('Error', 'Failed to log out. Please try again.');

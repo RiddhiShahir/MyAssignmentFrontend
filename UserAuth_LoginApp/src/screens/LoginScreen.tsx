@@ -172,7 +172,7 @@ export default function LoginScreen() {
           disabled={loading || resendCooldown > 0}
         >
           <Text style={styles.buttonText}>
-            {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : 'Resend OTP'}
+            {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : 'Send OTP'}
           </Text>
         </TouchableOpacity>
       )}

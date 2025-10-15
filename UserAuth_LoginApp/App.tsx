@@ -12,6 +12,9 @@ import ResetPasswordScreen from './src/screens/ResetPasswordScreen';
 import ChangePasswordScreen from './src/screens/ChangePasswordScreen'; 
 import DashboardScreen from './src/screens/DashboardScreen';
 import LoginScreen from './src/screens/LoginScreen';
+import LoginOptionsScreen from './src/screens/LoginOptionsScreen';
+import LoginViaEmailScreen from './src/screens/LogiaViaEmailScreen';
+import LoginViaMobileScreen from './src/screens/LoginViaMobileScreen';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -22,10 +25,13 @@ export type RootStackParamList = {
   VerifyEmail: { email: string; mobile: string; userId: string };
   VerifyMobile: { email: string; mobile: string; userId: string };
   ForgotPassword: { email: string };
-  ResetPassword: { email: string };
+  ResetPassword: { email: string ; token:string};
   ChangePassword: undefined;
   Login: undefined;
   Dashboard: undefined;
+  LoginOptions:undefined;
+  LoginViaEmail:undefined;
+  LoginViaMobile:undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,6 +51,10 @@ export default function App() {
         <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="LoginOptions" component={LoginOptionsScreen} />
+        <Stack.Screen name="LoginViaEmail" component={LoginViaEmailScreen} />
+        <Stack.Screen name="LoginViaMobile" component={LoginViaMobileScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -11,52 +11,52 @@ type DashboardProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
 export default function DashboardScreen() {
   const navigation = useNavigation<DashboardProp>();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = await AsyncStorage.getItem('accessToken');
-      if (!token) {
-        navigation.navigate('Login');
-        return;
-      }
-      try {
-        await axios.get('http://10.0.2.2:5017/api/auth/validate-token', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log('Token validated successfully');
-      } catch (error: any) {
-        console.error('Token validation error:', {
-          status: error.response?.status,
-          data: error.response?.data,
-          message: error.message,
-        });
-        navigation.navigate('Login');
-      }
-    };
-    checkAuth();
-  }, [navigation]);
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const token = await AsyncStorage.getItem('accessToken');
+  //     if (!token) {
+  //       navigation.navigate('Login');
+  //       return;
+  //     }
+  //     try {
+  //       await axios.get('http://10.0.2.2:5017/api/auth/validate-token', {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
+  //       console.log('Token validated successfully');
+  //     } catch (error: any) {
+  //       console.error('Token validation error:', {
+  //         status: error.response?.status,
+  //         data: error.response?.data,
+  //         message: error.message,
+  //       });
+  //       navigation.navigate('Login');
+  //     }
+  //   };
+  //   checkAuth();
+  // }, [navigation]);
 
-  const refreshToken = async () => {
-    try {
-      const refreshToken = await AsyncStorage.getItem('refreshToken');
-      if (!refreshToken) {
-        navigation.navigate('Login');
-        return;
-      }
-      const res = await axios.post('http://10.0.2.2:5017/api/auth/refresh-token', {
-        refreshToken,
-      });
-      await AsyncStorage.setItem('accessToken', res.data.accessToken);
-      await AsyncStorage.setItem('refreshToken', res.data.refreshToken);
-      console.log('Token refreshed successfully');
-    } catch (error: any) {
-      console.error('Token refresh failed:', {
-        status: error.response?.status,
-        data: error.response?.data,
-        message: error.message,
-      });
-      navigation.navigate('Login');
-    }
-  };
+  // const refreshToken = async () => {
+  //   try {
+  //     const refreshToken = await AsyncStorage.getItem('refreshToken');
+  //     if (!refreshToken) {
+  //       navigation.navigate('Login');
+  //       return;
+  //     }
+  //     const res = await axios.post('http://10.0.2.2:5017/api/auth/refresh-token', {
+  //       refreshToken,
+  //     });
+  //     await AsyncStorage.setItem('accessToken', res.data.accessToken);
+  //     await AsyncStorage.setItem('refreshToken', res.data.refreshToken);
+  //     console.log('Token refreshed successfully');
+  //   } catch (error: any) {
+  //     console.error('Token refresh failed:', {
+  //       status: error.response?.status,
+  //       data: error.response?.data,
+  //       message: error.message,
+  //     });
+  //     navigation.navigate('Login');
+  //   }
+  // };
 
   const handleLogout = async () => {
     try {
@@ -81,6 +81,14 @@ export default function DashboardScreen() {
       >
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Profile')}
+      >
+        <Text style={styles.buttonText}>View Profile</Text>
+      </TouchableOpacity>
+      
     </View>
   );
 }

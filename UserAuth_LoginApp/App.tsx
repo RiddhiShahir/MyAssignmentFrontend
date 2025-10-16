@@ -15,6 +15,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import LoginOptionsScreen from './src/screens/LoginOptionsScreen';
 import LoginViaEmailScreen from './src/screens/LogiaViaEmailScreen';
 import LoginViaMobileScreen from './src/screens/LoginViaMobileScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -32,6 +33,7 @@ export type RootStackParamList = {
   LoginOptions:undefined;
   LoginViaEmail:undefined;
   LoginViaMobile:undefined;
+  Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -54,6 +56,7 @@ export default function App() {
         <Stack.Screen name="LoginOptions" component={LoginOptionsScreen} />
         <Stack.Screen name="LoginViaEmail" component={LoginViaEmailScreen} />
         <Stack.Screen name="LoginViaMobile" component={LoginViaMobileScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>

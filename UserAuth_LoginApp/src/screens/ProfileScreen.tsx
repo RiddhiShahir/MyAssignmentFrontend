@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 
@@ -10,43 +10,42 @@ type ProfileProp = NativeStackNavigationProp<RootStackParamList, 'Profile'>;
 
 interface UserProfile {
   id: number;
-  fullName: string;
+  name: string;
   email: string;
-  phone: string;
+  mobile: string;
   createdAt: string;
 }
 
 export default function ProfileScreen() {
   const navigation = useNavigation<ProfileProp>();
+  const isFocused = useIsFocused();
   const [profile, setProfile] = useState<UserProfile | null>(null);
 
+  const fetchProfile = async () => {
+    try {
+      const token = await AsyncStorage.getItem('accessToken');
+      if (!token) return Alert.alert('Error', 'Missing token. Please log in again.');
+
+      const response = await axios.get('http://10.0.2.2:5017/api/auth/profile', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setProfile({
+        id: response.data.id,
+        name: response.data.name,
+        email: response.data.email,
+        mobile: response.data.mobile,
+        createdAt: response.data.createdAt,
+      });
+    } catch (error: any) {
+      console.error('Profile fetch error:', error.response?.data || error.message);
+      Alert.alert('Error', 'Failed to fetch profile details.');
+    }
+  };
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = await AsyncStorage.getItem('accessToken');
-        if (!token) return Alert.alert('Error', 'Missing token. Please log in again.');
-
-        const response = await axios.get('http://10.0.2.2:5017/api/auth/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        console.log('Profile response:', response.data);
-
-        setProfile({
-          id: response.data.id,
-          fullName: response.data.fullName,
-          email: response.data.email,
-          phone: response.data.phone,
-          createdAt: response.data.createdAt,
-        });
-      } catch (error: any) {
-        console.error('Profile fetch error:', error.response?.data || error.message);
-        Alert.alert('Error', 'Failed to fetch profile details.');
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    if (isFocused) fetchProfile();
+  }, [isFocused]);
 
   if (!profile) {
     return (
@@ -60,34 +59,38 @@ export default function ProfileScreen() {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => navigation.navigate('Dashboard')}
-      >
+        onPress={() => navigation.navigate('Dashboard')}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={styles.title}>User Profile</Text>
 
       <View style={styles.card}>
-        <Text style={styles.label}>Full Name:</Text>
-        <Text style={styles.value}>{profile.fullName}</Text>
+        <Text style={styles.label}>Name:</Text>
+        <Text style={styles.value}>{profile.name}</Text>
 
         <Text style={styles.label}>Email:</Text>
         <Text style={styles.value}>{profile.email}</Text>
 
-        <Text style={styles.label}>Phone:</Text>
-        <Text style={styles.value}>{profile.phone}</Text>
+        <Text style={styles.label}>Mobile:</Text>
+        <Text style={styles.value}>{profile.mobile}</Text>
 
         <Text style={styles.label}>Joined:</Text>
         <Text style={styles.value}>
           {new Date(profile.createdAt).toLocaleDateString()}
         </Text>
 
-            <TouchableOpacity
-        style={[styles.button, { marginTop: 20 }]}
-        onPress={() => navigation.navigate('ChangePassword')}>
-        <Text style={styles.buttonText}>Update Password</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, { marginTop: 20 }]}
+          onPress={() => navigation.navigate('ChangePassword')}>
+          <Text style={styles.buttonText}>Update Password</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('EditProfile')}>
+          <Text style={styles.buttonText}>Edit Profile</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
   label: { color: '#3a3a3a', fontWeight: 'bold', marginTop: 10 },
   value: { color: '#000', fontSize: 16 },
   loadingText: { color: 'white', fontSize: 18, textAlign: 'center' },
-    button: {
+  button: {
     backgroundColor: '#1c2541',
     borderRadius: 10,
     padding: 12,

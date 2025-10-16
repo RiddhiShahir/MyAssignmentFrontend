@@ -75,19 +75,19 @@ export default function DashboardScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Your Dashboard</Text>
       <Text style={styles.subtitle}>You are successfully logged in!</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleLogout}
-      >
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Profile')}
-      >
+        onPress={() => navigation.navigate('Profile')} >
         <Text style={styles.buttonText}>View Profile</Text>
       </TouchableOpacity>
+
+     <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
+
       
     </View>
   );

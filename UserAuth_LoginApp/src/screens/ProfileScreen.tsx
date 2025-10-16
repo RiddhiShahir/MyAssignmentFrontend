@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -81,6 +81,13 @@ export default function ProfileScreen() {
         <Text style={styles.value}>
           {new Date(profile.createdAt).toLocaleDateString()}
         </Text>
+
+            <TouchableOpacity
+        style={[styles.button, { marginTop: 20 }]}
+        onPress={() => navigation.navigate('ChangePassword')}>
+        <Text style={styles.buttonText}>Update Password</Text>
+      </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -101,4 +108,16 @@ const styles = StyleSheet.create({
   label: { color: '#3a3a3a', fontWeight: 'bold', marginTop: 10 },
   value: { color: '#000', fontSize: 16 },
   loadingText: { color: 'white', fontSize: 18, textAlign: 'center' },
+    button: {
+    backgroundColor: '#1c2541',
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '600',
+  },
 });

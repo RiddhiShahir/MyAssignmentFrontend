@@ -4,12 +4,15 @@ import axios from 'axios';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
-// ✅ Define navigation prop
+// Define navigation prop
 type RegisterScreenProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
 
 export default function RegisterScreen() {
   const navigation = useNavigation<RegisterScreenProp>();
+
+  const {theme} = useTheme();
 
   const [form, setForm] = useState({
     name: '',
@@ -32,7 +35,8 @@ export default function RegisterScreen() {
     setErrors({ ...errors, [key]: '' });
   };
 
-  // ✅ Validation
+  // check points for Validations
+
   const validateForm = (): boolean => {
     let valid = true;
     let newErrors: any = {};
@@ -85,10 +89,10 @@ export default function RegisterScreen() {
     return valid;
   };
 
-  // ✅ Your API endpoint
+  // Your API endpoint
   const API_BASE_URL = 'http://10.0.2.2:5017/api/auth/register';
 
-  // ✅ Handle Submit
+  // Handle Submit
   const handleSubmit = async () => {
     if (!validateForm()) return;
 
@@ -132,17 +136,18 @@ export default function RegisterScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* ✅ Back Button */}
+  <View style={[styles.container, {backgroundColor:theme.background}]}>
+
+      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText,{color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.header}>User Registration</Text>
+      <Text style={[styles.header, {color: theme.text}]}>User Registration</Text>
 
       <TextInput
         placeholder="Name"
-        style={styles.input}
+        style={[styles.input,{ backgroundColor: theme.secondary }]}
         value={form.name}
         onChangeText={(text) => handleChange('name', text)}
       />
@@ -150,57 +155,52 @@ export default function RegisterScreen() {
 
       <TextInput
         placeholder="Email"
-        style={styles.input}
+        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
         value={form.email}
         keyboardType="email-address"
-        onChangeText={(text) => handleChange('email', text)}
-      />
+        onChangeText={(text) => handleChange('email', text)}/>
       {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
 
       <TextInput
         placeholder="Mobile Number"
-        style={styles.input}
+        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
         value={form.mobile}
         keyboardType="numeric"
         maxLength={10}
-        onChangeText={(text) => handleChange('mobile', text)}
-      />
+        onChangeText={(text) => handleChange('mobile', text)}/>
       {errors.mobile ? <Text style={styles.errorText}>{errors.mobile}</Text> : null}
 
       <TextInput
         placeholder="Password"
-        style={styles.input}
+        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
         value={form.password}
         secureTextEntry
-        onChangeText={(text) => handleChange('password', text)}
-      />
+        onChangeText={(text) => handleChange('password', text)}/>
       {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
 
       <TextInput
         placeholder="Confirm Password"
-        style={styles.input}
+        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
         value={form.confirmPassword}
         secureTextEntry
-        onChangeText={(text) => handleChange('confirmPassword', text)}
-      />
+        onChangeText={(text) => handleChange('confirmPassword', text)} />
       {errors.confirmPassword ? (
         <Text style={styles.errorText}>{errors.confirmPassword}</Text>
       ) : null}
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Submit</Text>
+      <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleSubmit}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>Submit</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-// ✅ Styles
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 25,
-    backgroundColor: '#0b132b',
   },
   header: {
     color: 'white',
@@ -221,14 +221,12 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     marginTop: 10,
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },

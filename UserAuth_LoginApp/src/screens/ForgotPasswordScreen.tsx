@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type ForgotPasswordProp = NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;
 
@@ -13,6 +14,7 @@ export default function ForgotPasswordScreen() {
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const { theme } = useTheme();
 
   const handleVerify = async () => {
     if (!email) return Alert.alert('Error', 'Please enter your email.');
@@ -31,8 +33,8 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Forgot Password</Text>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
+      <Text style={[styles.title,{color:theme.text}]}>Forgot Password</Text>
 
       <TextInput
         style={styles.input}
@@ -40,14 +42,12 @@ export default function ForgotPasswordScreen() {
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        autoCapitalize="none"/>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleVerify}
-        disabled={loading}
-      >
+        disabled={loading}>
         <Text style={styles.buttonText}>
           {loading ? 'Verifying...' : 'Verify Email'}
         </Text>
@@ -55,9 +55,8 @@ export default function ForgotPasswordScreen() {
 
       {isVerified && (
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#3aafa9' }]}
-          onPress={() => navigation.navigate('ResetPassword', { email, token })}
-        >
+          style={[styles.button, { backgroundColor: theme.primary }]}
+          onPress={() => navigation.navigate('ResetPassword', { email, token })}>
           <Text style={styles.buttonText}>Reset Password</Text>
         </TouchableOpacity>
       )}
@@ -70,11 +69,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b132b',
     padding: 20,
   },
   title: {
-    color: 'white',
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
@@ -87,7 +84,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     width: '80%',
@@ -95,7 +91,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontWeight: '600',
   },
 });

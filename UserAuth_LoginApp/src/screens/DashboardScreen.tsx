@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type DashboardProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
 
 export default function DashboardScreen() {
   const navigation = useNavigation<DashboardProp>();
+  const { theme } = useTheme();
 
   // useEffect(() => {
   //   const checkAuth = async () => {
@@ -58,32 +59,62 @@ export default function DashboardScreen() {
   //   }
   // };
 
-  const handleLogout = async () => {
-    try {
-      await AsyncStorage.removeItem('accessToken');
-      await AsyncStorage.removeItem('refreshToken');
-      await AsyncStorage.removeItem('userId');
-      Alert.alert('Success', 'Logged out successfully');
-      navigation.navigate('Home');
-    } catch (error: any) {
-      console.error('Logout error:', error);
-      Alert.alert('Error', 'Failed to log out. Please try again.');
-    }
+  
+  // Disable back button
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      // Prevent going back
+      return true;
+    });
+
+    return () => backHandler.remove(); // cleanup on unmount
+  }, []);
+
+  // const handleLogout = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem('accessToken');
+  //     await AsyncStorage.removeItem('refreshToken');
+  //     await AsyncStorage.removeItem('userId');
+  //     Alert.alert('Success', 'Logged out successfully');
+  //     navigation.navigate('Home');
+  //   } catch (error: any) {
+  //     console.error('Logout error:', error);
+  //     Alert.alert('Error', 'Failed to log out. Please try again.');
+  //   }
+  // };
+
+const handleLogout = async () => {
+    Alert.alert('Logout', 'Are you sure you want to logout?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Logout',
+        style: 'destructive',
+        onPress: async () => {
+          await AsyncStorage.removeItem('accessToken');
+          await AsyncStorage.removeItem('refreshToken');
+          await AsyncStorage.removeItem('userId');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoginOptions' }],
+          });
+        },
+      },
+    ]);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Your Dashboard</Text>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
+      <Text style={[styles.title,{color:theme.text}]}>Welcome to Your Dashboard</Text>
       <Text style={styles.subtitle}>You are successfully logged in!</Text>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('Profile')} >
         <Text style={styles.buttonText}>View Profile</Text>
       </TouchableOpacity>
 
      <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogout}>
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
@@ -99,10 +130,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#0b132b',
   },
   title: {
-    color: 'white',
     fontSize: 22,
     fontWeight: '600',
     marginBottom: 20,
@@ -114,7 +143,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     width: '80%',
@@ -122,7 +150,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontWeight: '600',
   },
 });

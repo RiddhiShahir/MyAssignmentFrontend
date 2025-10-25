@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type LoginEmailProp = NativeStackNavigationProp<RootStackParamList, 'LoginViaEmail'>;
 
@@ -14,6 +15,8 @@ export default function LoginViaEmailScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useTheme();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -51,12 +54,12 @@ export default function LoginViaEmailScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Login via Email</Text>
+      <Text style={[styles.title,{color:theme.text}]}>Login via Email</Text>
 
       <TextInput
         style={styles.input}
@@ -83,11 +86,11 @@ export default function LoginViaEmailScreen() {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogin}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Login'}</Text>
+        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Login'},</Text>
       </TouchableOpacity>
     </View>
   );
@@ -98,11 +101,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b132b',
     padding: 20,
   },
   title: {
-    color: 'white',
     fontSize: 22,
     fontWeight: '600',
     marginBottom: 20,
@@ -115,7 +116,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     width: '80%',
@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontWeight: '600',
   },
   linkButton: {

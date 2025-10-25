@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type EditProfileProp = NativeStackNavigationProp<RootStackParamList, 'EditProfile'>;
 
@@ -13,6 +14,8 @@ export default function EditProfileScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -68,12 +71,12 @@ export default function EditProfileScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Edit Profile</Text>
+      <Text style={[styles.title,{color:theme.text}]}>Edit Profile</Text>
 
       <TextInput
         style={styles.input}
@@ -101,7 +104,7 @@ export default function EditProfileScreen() {
         keyboardType="phone-pad"
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+      <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleUpdate}>
         <Text style={styles.buttonText}>Save Changes</Text>
       </TouchableOpacity>
     </View>
@@ -109,11 +112,10 @@ export default function EditProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0b132b', padding: 20 },
+  container: { flex: 1, padding: 20 },
   backButton: { marginTop: 40, marginBottom: 20 },
   backText: { color: 'white', fontSize: 16 },
   title: {
-    color: 'white',
     fontSize: 24,
     fontWeight: '700',
     textAlign: 'center',
@@ -127,13 +129,11 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   button: {
-    backgroundColor: '#1c2541',
     borderRadius: 10,
     padding: 12,
     marginTop: 20,
   },
   buttonText: {
-    color: 'white',
     fontSize: 16,
     textAlign: 'center',
     fontWeight: '600',

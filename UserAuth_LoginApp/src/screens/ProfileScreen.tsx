@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type ProfileProp = NativeStackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -14,12 +15,15 @@ interface UserProfile {
   email: string;
   mobile: string;
   createdAt: string;
+  lastUpdatedDate: string;
 }
 
 export default function ProfileScreen() {
   const navigation = useNavigation<ProfileProp>();
   const isFocused = useIsFocused();
   const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  const { theme } = useTheme();
 
   const fetchProfile = async () => {
     try {
@@ -36,6 +40,7 @@ export default function ProfileScreen() {
         email: response.data.email,
         mobile: response.data.mobile,
         createdAt: response.data.createdAt,
+        lastUpdatedDate: response.data.lastUpdatedDate,
       });
     } catch (error: any) {
       console.error('Profile fetch error:', error.response?.data || error.message);
@@ -56,32 +61,52 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Dashboard')}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>User Profile</Text>
+      <Text style={[styles.title,{color:theme.text}]}>User Profile</Text>
 
       <View style={styles.card}>
-        <Text style={styles.label}>Name:</Text>
-        <Text style={styles.value}>{profile.name}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Name</Text>
+          <Text style={styles.colon}>:</Text>
+          <Text style={styles.value}>{profile.name}</Text>
+        </View>
 
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.value}>{profile.email}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Email</Text>
+          <Text style={styles.colon}>:</Text>
+          <Text style={styles.value}>{profile.email}</Text>
+        </View>
 
-        <Text style={styles.label}>Mobile:</Text>
-        <Text style={styles.value}>{profile.mobile}</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Mobile</Text>
+          <Text style={styles.colon}>:</Text>
+          <Text style={styles.value}>{profile.mobile}</Text>
+        </View>
 
-        <Text style={styles.label}>Joined:</Text>
-        <Text style={styles.value}>
-          {new Date(profile.createdAt).toLocaleDateString()}
-        </Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Joined On</Text>
+          <Text style={styles.colon}>:</Text>
+          <Text style={styles.value}>
+            {new Date(profile.createdAt).toLocaleDateString()}
+          </Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.label}>Last Updated</Text>
+          <Text style={styles.colon}>:</Text>
+          <Text style={styles.value}>
+            {new Date(profile.lastUpdatedDate).toLocaleDateString()}
+          </Text>
+        </View>
 
         <TouchableOpacity
-          style={[styles.button, { marginTop: 20 }]}
+          style={[styles.button,{ backgroundColor: theme.primary } ,{ marginTop: 20 }]}
           onPress={() => navigation.navigate('ChangePassword')}>
           <Text style={styles.buttonText}>Update Password</Text>
         </TouchableOpacity>
@@ -89,7 +114,7 @@ export default function ProfileScreen() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('EditProfile')}>
-          <Text style={styles.buttonText}>Edit Profile</Text>
+          <Text style={[styles.buttonText, { color: theme.text }]}>Edit Profile</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -97,7 +122,7 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0b132b', padding: 20 },
+  container: { flex: 1, padding: 20 },
   backButton: { marginTop: 40, marginBottom: 20 },
   backText: { color: 'white', fontSize: 16 },
   title: {
@@ -107,18 +132,45 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 30,
   },
-  card: { backgroundColor: 'white', borderRadius: 10, padding: 20 },
-  label: { color: '#3a3a3a', fontWeight: 'bold', marginTop: 10 },
-  value: { color: '#000', fontSize: 16 },
-  loadingText: { color: 'white', fontSize: 18, textAlign: 'center' },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  label: {
+    color: '#3a3a3a',
+    fontWeight: 'bold',
+    fontSize: 16,
+    width: 110, // fixed width for clean alignment
+  },
+  colon: {
+    color: '#3a3a3a',
+    fontSize: 16,
+    fontWeight: 'bold', // makes the colon bold
+    width: 10,
+    textAlign: 'center',
+  },
+  value: {
+    color: '#000',
+    fontSize: 16,
+    flexShrink: 1,
+  },
+  loadingText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+  },
   button: {
-    backgroundColor: '#1c2541',
     borderRadius: 10,
     padding: 12,
     marginTop: 20,
   },
   buttonText: {
-    color: 'white',
     fontSize: 16,
     textAlign: 'center',
     fontWeight: '600',

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type ResetPasswordProp = NativeStackNavigationProp<RootStackParamList, 'ResetPassword'>;
 
@@ -16,6 +17,8 @@ export default function ResetPasswordScreen() {
   const [token, setToken] = useState(routeToken || '');
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useTheme();
 
   const handleResetPassword = async () => {
     if (!email || !token || !newPassword) {
@@ -39,8 +42,8 @@ export default function ResetPasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Reset Password</Text>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
+      <Text style={[styles.title,{color:theme.text}]}>Reset Password</Text>
 
       <TextInput
         style={styles.input}
@@ -66,11 +69,10 @@ export default function ResetPasswordScreen() {
       />
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleResetPassword}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>
+        disabled={loading}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>
           {loading ? 'Resetting...' : 'Submit'}
         </Text>
       </TouchableOpacity>
@@ -83,11 +85,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b132b',
     padding: 20,
   },
   title: {
-    color: 'white',
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     width: '80%',
@@ -108,7 +107,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontWeight: '600',
   },
 });

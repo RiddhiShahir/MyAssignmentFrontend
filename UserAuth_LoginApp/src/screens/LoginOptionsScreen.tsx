@@ -4,35 +4,35 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type LoginOptionsProp = NativeStackNavigationProp<RootStackParamList, 'LoginOptions'>;
 
 export default function LoginOptionsScreen() {
   const navigation = useNavigation<LoginOptionsProp>();
+  const { theme } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => navigation.navigate('Home')}
-      >
+        onPress={() => navigation.navigate('Home')}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Login Options</Text>
+      <Text style={[styles.title,{color:theme.text}]}>Login Options</Text>
 
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('LoginViaEmail')}
-      >
-        <Text style={styles.buttonText}>Login via Email</Text>
+        style={[styles.button,{ backgroundColor: theme.primary }]}
+        onPress={() => navigation.navigate('LoginViaEmail')}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>Login via Email</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('LoginViaMobile')}
       >
-        <Text style={styles.buttonText}>Login via Mobile</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>Login via Mobile</Text>
       </TouchableOpacity>
     </View>
   );
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b132b',
     padding: 20,
   },
   title: {
@@ -53,7 +52,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     width: '80%',
@@ -61,7 +59,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontWeight: '600',
     fontSize: 16,
   },

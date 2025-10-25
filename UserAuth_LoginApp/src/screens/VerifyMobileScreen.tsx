@@ -4,6 +4,7 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
 import { RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTheme } from './context/ThemesContext';
 
 type VerifyMobileProp = NativeStackNavigationProp<RootStackParamList, 'VerifyMobile'>;
 type VerifyMobileRouteProp = RouteProp<RootStackParamList, 'VerifyMobile'>;
@@ -16,6 +17,8 @@ export default function VerifyMobileScreen() {
   const [otp, setOtp] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [resendCooldown, setResendCooldown] = useState<number>(0);
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (resendCooldown > 0) {
@@ -81,18 +84,18 @@ export default function VerifyMobileScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText,{color: theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Verify Mobile</Text>
-      <Text style={styles.subtitle}>Mobile: {mobile}</Text>
-      <Text style={styles.subtitle}>Enter the OTP sent to your mobile:</Text>
+      <Text style={[styles.title,{color:theme.text}]}>Verify Mobile</Text>
+      <Text style={[styles.subtitle,{color: theme.text}]}>Mobile: {mobile}</Text>
+      <Text style={[styles.subtitle,{color: theme.text}]}>Enter the OTP sent to your mobile:</Text>
 
       <TextInput
         placeholder="OTP"
-        style={styles.input}
+        style={[styles.input,{color:theme.text}]}
         value={otp}
         onChangeText={setOtp}
         keyboardType="numeric"
@@ -100,19 +103,17 @@ export default function VerifyMobileScreen() {
       />
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleVerifyMobile}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>{loading ? 'Verifying...' : 'Verify Now'}</Text>
+        disabled={loading}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? 'Verifying...' : 'Verify Now'}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleResend}
-        disabled={loading || resendCooldown > 0}
-      >
-        <Text style={styles.buttonText}>
+        disabled={loading || resendCooldown > 0}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>
           {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend OTP'}
         </Text>
       </TouchableOpacity>
@@ -121,12 +122,12 @@ export default function VerifyMobileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, backgroundColor: '#0b132b' },
-  title: { color: 'white', fontSize: 22, marginBottom: 10 },
-  subtitle: { color: '#ccc', marginBottom: 10, textAlign: 'center' },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, },
+  title: { fontSize: 22, marginBottom: 10 },
+  subtitle: { marginBottom: 10, textAlign: 'center' },
   input: { backgroundColor: 'white', borderRadius: 8, marginBottom: 10, padding: 12, width: '80%' },
-  button: { backgroundColor: '#5bc0be', borderRadius: 8, paddingVertical: 14, width: '80%', marginVertical: 8 },
-  buttonText: { textAlign: 'center', color: 'white', fontWeight: '600' },
+  button: { borderRadius: 8, paddingVertical: 14, width: '80%', marginVertical: 8 },
+  buttonText: { textAlign: 'center', fontWeight: '600' },
   backButton: { position: 'absolute', top: 50, left: 20 },
-  backText: { color: 'white', fontSize: 16 },
+  backText: {  fontSize: 16 },
 });

@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type LoginMobileProp = NativeStackNavigationProp<RootStackParamList, 'LoginViaMobile'>;
 
@@ -14,6 +15,8 @@ export default function LoginViaMobileScreen() {
   const [otp, setOtp] = useState('');
   const [resendCooldown, setResendCooldown] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useTheme();
 
   const handleSendOtp = async () => {
     const mobileRegex = /^\d{10}$/;
@@ -72,12 +75,12 @@ export default function LoginViaMobileScreen() {
   }, [resendCooldown]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Login via Mobile</Text>
+      <Text style={[styles.title,{color:theme.text}]}>Login via Mobile</Text>
 
       <TextInput
         style={styles.input}
@@ -98,21 +101,20 @@ export default function LoginViaMobileScreen() {
       />
 
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: resendCooldown > 0 ? '#888' : '#5bc0be' }]}
+        style={[styles.button, { backgroundColor: resendCooldown > 0 ? '#888' : theme.primary }]}
         onPress={handleSendOtp}
-        disabled={resendCooldown > 0 || loading}
-      >
-        <Text style={styles.buttonText}>
+        disabled={resendCooldown > 0 || loading}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>
           {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : 'Send OTP'}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogin}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Login'}</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? 'Logging in...' : 'Login'}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -123,11 +125,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b132b',
     padding: 20,
   },
   title: {
-    color: 'white',
     fontSize: 22,
     fontWeight: '600',
     marginBottom: 20,
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   button: {
-    backgroundColor: '#5bc0be',
     borderRadius: 8,
     paddingVertical: 14,
     width: '80%',
@@ -148,7 +147,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: 'white',
     fontWeight: '600',
   },
   backButton: {

@@ -71,6 +71,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { useTheme } from './context/ThemesContext';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList, 'ChangePassword'>;
 
@@ -79,6 +80,8 @@ export default function ChangePasswordScreen() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { theme } = useTheme();
 
   const handleChangePassword = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
@@ -109,8 +112,8 @@ export default function ChangePasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Change Password</Text>
+    <View style={[styles.container,{backgroundColor:theme.background}]}>
+      <Text style={[styles.title,{color:theme.text}]}>Change Password</Text>
 
       <TextInput
         style={styles.input}
@@ -134,7 +137,7 @@ export default function ChangePasswordScreen() {
         onChangeText={setConfirmPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
+      <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleChangePassword}>
         <Text style={styles.buttonText}>Update Password</Text>
       </TouchableOpacity>
 
@@ -146,8 +149,8 @@ export default function ChangePasswordScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0b132b', padding: 20, justifyContent: 'center' },
-  title: { color: 'white', fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
+  container: { flex: 1, padding: 20, justifyContent: 'center' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
   input: {
     backgroundColor: 'white',
     borderRadius: 8,
@@ -155,12 +158,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   button: {
-    backgroundColor: '#5bc0be',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10,
   },
-  buttonText: { color: 'white', fontWeight: '600' },
+  buttonText: { fontWeight: '600' },
   backText: { color: '#fff', textAlign: 'center', marginTop: 10 },
 });

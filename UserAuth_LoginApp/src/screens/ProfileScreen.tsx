@@ -65,7 +65,7 @@ export default function ProfileScreen() {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Dashboard')}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>User Profile</Text>
@@ -106,13 +106,13 @@ export default function ProfileScreen() {
         </View>
 
         <TouchableOpacity
-          style={[styles.button,{ backgroundColor: theme.primary } ,{ marginTop: 20 }]}
+          style={[styles.button,{backgroundColor:theme.primary } ,{ marginTop: 20 }]}
           onPress={() => navigation.navigate('ChangePassword')}>
-          <Text style={styles.buttonText}>Update Password</Text>
+          <Text style={[styles.buttonText,{color: theme.text}]}>Update Password</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button,{backgroundColor: theme.primary}]}
           onPress={() => navigation.navigate('EditProfile')}>
           <Text style={[styles.buttonText, { color: theme.text }]}>Edit Profile</Text>
         </TouchableOpacity>
@@ -124,9 +124,8 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   backButton: { marginTop: 40, marginBottom: 20 },
-  backText: { color: 'white', fontSize: 16 },
+  backText: {fontSize: 16 },
   title: {
-    color: 'white',
     fontSize: 24,
     fontWeight: '700',
     textAlign: 'center',
@@ -161,7 +160,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   loadingText: {
-    color: 'white',
     fontSize: 18,
     textAlign: 'center',
   },

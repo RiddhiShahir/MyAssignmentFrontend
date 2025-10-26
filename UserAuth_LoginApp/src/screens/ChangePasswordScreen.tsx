@@ -112,25 +112,33 @@ export default function ChangePasswordScreen() {
   };
 
   return (
+
     <View style={[styles.container,{backgroundColor:theme.background}]}>
-      <Text style={[styles.title,{color:theme.text}]}>Change Password</Text>
+
+     <TouchableOpacity 
+        style={styles.backButton}
+        onPress={() => navigation.navigate('Profile')}>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+      </TouchableOpacity>
+
+      <Text style={[styles.title,{color:theme.text}]}>Update Password</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Current Password"
         secureTextEntry
         value={currentPassword}
         onChangeText={setCurrentPassword}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="New Password"
         secureTextEntry
         value={newPassword}
         onChangeText={setNewPassword}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Confirm New Password"
         secureTextEntry
         value={confirmPassword}
@@ -138,12 +146,9 @@ export default function ChangePasswordScreen() {
       />
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleChangePassword}>
-        <Text style={styles.buttonText}>Update Password</Text>
+        <Text style={[styles.buttonText,{color : theme.text}]}>Update Password</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <Text style={styles.backText}>← Back to Profile</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -151,8 +156,7 @@ export default function ChangePasswordScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, justifyContent: 'center' },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  input: {
-    backgroundColor: 'white',
+  input: { 
     borderRadius: 8,
     padding: 12,
     marginBottom: 15,
@@ -164,5 +168,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: { fontWeight: '600' },
-  backText: { color: '#fff', textAlign: 'center', marginTop: 10 },
+  backText: {  textAlign: 'center', marginTop: 10 },
+   backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+  },
 });

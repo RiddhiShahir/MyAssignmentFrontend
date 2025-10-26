@@ -1,4 +1,3 @@
-// src/screens/LoginViaEmailScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -56,13 +55,13 @@ export default function LoginViaEmailScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText,{color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Login via Email</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -71,7 +70,7 @@ export default function LoginViaEmailScreen() {
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
@@ -80,17 +79,15 @@ export default function LoginViaEmailScreen() {
 
       <TouchableOpacity
         style={styles.linkButton}
-        onPress={() => navigation.navigate('ForgotPassword', { email })}
-      >
+        onPress={() => navigation.navigate('ForgotPassword', { email })}>
         <Text style={styles.linkText}>Forgot Password?</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogin}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Login'},</Text>
+        disabled={loading}>
+        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Login'}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -109,7 +106,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: 'white',
     borderRadius: 8,
     padding: 12,
     width: '80%',
@@ -138,7 +134,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backText: {
-    color: 'white',
     fontSize: 16,
   },
 });

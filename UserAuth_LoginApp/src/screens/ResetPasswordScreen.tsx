@@ -46,7 +46,7 @@ export default function ResetPasswordScreen() {
       <Text style={[styles.title,{color:theme.text}]}>Reset Password</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -54,14 +54,14 @@ export default function ResetPasswordScreen() {
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Enter Token"
         value={token}
         onChangeText={setToken}
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="New Password"
         secureTextEntry
         value={newPassword}
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: 'white',
     borderRadius: 8,
     padding: 12,
     width: '80%',

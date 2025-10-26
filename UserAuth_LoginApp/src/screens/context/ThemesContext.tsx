@@ -7,6 +7,7 @@ interface Theme {
   text: string;
   primary: string;
   secondary: string;
+  input: string;
 }
 
 // Define two themes: light and dark
@@ -15,6 +16,7 @@ const lightTheme: Theme = {
   text: '#000000',      // Black text
   primary: '#9365d4ff',   // Purple for buttons
   secondary: '#03DAC6', // Teal for buttons
+  input: '#8e8b8b82',
 };
 
 const darkTheme: Theme = {
@@ -22,6 +24,7 @@ const darkTheme: Theme = {
   text: '#FFFFFF',      // White text
   primary: '#BB86FC',   // Light purple for buttons
   secondary: '#03DAC6', // Teal for buttons
+  input :'white',
 };
 
 // Define the context (like a box that holds the theme)

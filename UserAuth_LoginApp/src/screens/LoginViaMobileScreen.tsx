@@ -77,13 +77,13 @@ export default function LoginViaMobileScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Login via Mobile</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor: theme.input}]}
         placeholder="Mobile (10 digits)"
         value={mobile}
         onChangeText={setMobile}
@@ -92,7 +92,7 @@ export default function LoginViaMobileScreen() {
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor: theme.input}]}
         placeholder="OTP"
         value={otp}
         onChangeText={setOtp}
@@ -112,8 +112,7 @@ export default function LoginViaMobileScreen() {
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogin}
-        disabled={loading}
-      >
+        disabled={loading}>
         <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? 'Logging in...' : 'Login'}</Text>
       </TouchableOpacity>
     </View>
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: 'white',
     borderRadius: 8,
     padding: 12,
     width: '80%',
@@ -155,7 +153,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backText: {
-    color: 'white',
     fontSize: 16,
   },
 });

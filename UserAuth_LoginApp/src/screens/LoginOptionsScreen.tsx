@@ -17,7 +17,7 @@ export default function LoginOptionsScreen() {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Login Options</Text>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    color: 'white',
     fontSize: 22,
     fontWeight: '600',
     marginBottom: 40,
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backText: {
-    color: 'white',
     fontSize: 16,
   },
 });

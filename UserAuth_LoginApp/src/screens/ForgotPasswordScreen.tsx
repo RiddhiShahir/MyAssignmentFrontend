@@ -37,7 +37,7 @@ export default function ForgotPasswordScreen() {
       <Text style={[styles.title,{color:theme.text}]}>Forgot Password</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Enter your registered email"
         value={email}
         onChangeText={setEmail}
@@ -48,7 +48,7 @@ export default function ForgotPasswordScreen() {
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleVerify}
         disabled={loading}>
-        <Text style={styles.buttonText}>
+        <Text style={[styles.buttonText,,{color:theme.text}]}>
           {loading ? 'Verifying...' : 'Verify Email'}
         </Text>
       </TouchableOpacity>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    backgroundColor: 'white',
     borderRadius: 8,
     padding: 12,
     width: '80%',

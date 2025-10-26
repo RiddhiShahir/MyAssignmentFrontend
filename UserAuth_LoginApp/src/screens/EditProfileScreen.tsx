@@ -73,39 +73,36 @@ export default function EditProfileScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Edit Profile</Text>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Full Name"
-        placeholderTextColor="#aaa"
         value={name}
         onChangeText={setName}
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Email"
-        placeholderTextColor="#aaa"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input,{backgroundColor:theme.input}]}
         placeholder="Mobile"
-        placeholderTextColor="#aaa"
         value={mobile}
         onChangeText={setMobile}
         keyboardType="phone-pad"
       />
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleUpdate}>
-        <Text style={styles.buttonText}>Save Changes</Text>
+        <Text style={[styles.buttonText,{color:theme.text}]}>Save Changes</Text>
       </TouchableOpacity>
     </View>
   );
@@ -114,7 +111,7 @@ export default function EditProfileScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   backButton: { marginTop: 40, marginBottom: 20 },
-  backText: { color: 'white', fontSize: 16 },
+  backText: {fontSize: 16 },
   title: {
     fontSize: 24,
     fontWeight: '700',
@@ -122,7 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   input: {
-    backgroundColor: 'white',
     borderRadius: 10,
     padding: 12,
     marginVertical: 10,

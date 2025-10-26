@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, },
   title: { fontSize: 22, marginBottom: 10 },
   subtitle: { marginBottom: 10, textAlign: 'center' },
-  input: { backgroundColor: 'white', borderRadius: 8, marginBottom: 10, padding: 12, width: '80%' },
+  input: { borderRadius: 8, marginBottom: 10, padding: 12, width: '80%' },
   button: { borderRadius: 8, paddingVertical: 14, width: '80%', marginVertical: 8 },
   buttonText: { textAlign: 'center', fontWeight: '600' },
   backButton: { position: 'absolute', top: 50, left: 20 },

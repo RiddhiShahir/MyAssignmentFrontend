@@ -147,7 +147,7 @@ export default function RegisterScreen() {
 
       <TextInput
         placeholder="Name"
-        style={[styles.input,{ backgroundColor: theme.secondary }]}
+        style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.name}
         onChangeText={(text) => handleChange('name', text)}
       />
@@ -155,7 +155,7 @@ export default function RegisterScreen() {
 
       <TextInput
         placeholder="Email"
-        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
+        style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.email}
         keyboardType="email-address"
         onChangeText={(text) => handleChange('email', text)}/>
@@ -163,7 +163,7 @@ export default function RegisterScreen() {
 
       <TextInput
         placeholder="Mobile Number"
-        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
+        style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.mobile}
         keyboardType="numeric"
         maxLength={10}
@@ -172,7 +172,7 @@ export default function RegisterScreen() {
 
       <TextInput
         placeholder="Password"
-        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
+        style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.password}
         secureTextEntry
         onChangeText={(text) => handleChange('password', text)}/>
@@ -180,7 +180,7 @@ export default function RegisterScreen() {
 
       <TextInput
         placeholder="Confirm Password"
-        style={[styles.input,{ backgroundColor: theme.secondary, color: theme.text }]}
+        style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.confirmPassword}
         secureTextEntry
         onChangeText={(text) => handleChange('confirmPassword', text)} />
@@ -235,8 +235,5 @@ const styles = StyleSheet.create({
     top: 50,
     left: 20,
   },
-  backText: {
-    color: 'white',
-    fontSize: 16,
-  },
+  backText: {fontSize: 16,},
 });

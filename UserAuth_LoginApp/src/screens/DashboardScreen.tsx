@@ -105,20 +105,19 @@ const handleLogout = async () => {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <Text style={[styles.title,{color:theme.text}]}>Welcome to Your Dashboard</Text>
-      <Text style={styles.subtitle}>You are successfully logged in!</Text>
+      <Text style={[styles.subtitle,{color:theme.text}]}>You are successfully logged in!</Text>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('Profile')} >
-        <Text style={styles.buttonText}>View Profile</Text>
+        <Text style={[styles.buttonText,{color:theme.text}]}>View Profile</Text>
       </TouchableOpacity>
 
      <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
+        <Text style={[styles.buttonText,{color:theme.text}]}>Logout</Text>
       </TouchableOpacity>
-
       
     </View>
   );

@@ -86,12 +86,12 @@ export default function VerifyEmailScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Verify Email</Text>
-      <Text style={styles.subtitle}>Email: {email}</Text>
-      <Text style={styles.subtitle}>Enter the verification token from your email:</Text>
+      <Text style={[styles.subtitle, {color:theme.text}]}>Email: {email}</Text>
+      <Text style={[styles.subtitle, {color:theme.text}]}>Enter the verification token from your email:</Text>
 
       <TextInput
         placeholder="Verification Token"

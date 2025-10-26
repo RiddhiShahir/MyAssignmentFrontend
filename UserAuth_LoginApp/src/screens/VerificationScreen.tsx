@@ -43,7 +43,7 @@ export default function VerificationScreen() {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Verification Required</Text>
@@ -67,9 +67,9 @@ export default function VerificationScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, },
   title: { fontSize: 22, fontWeight: '600', marginBottom: 10 },
-  subtitle: { color: '#ccc', fontSize: 15, textAlign: 'center', marginBottom: 25 },
+  subtitle: { fontSize: 15, textAlign: 'center', marginBottom: 25 },
   button: { borderRadius: 8, paddingVertical: 14, width: '80%', marginVertical: 8 },
   buttonText: { textAlign: 'center', fontWeight: '600' },
   backButton: { position: 'absolute', top: 50, left: 20 },
-  backText: { color: 'white', fontSize: 16 },
+  backText: { fontSize: 16 },
 });

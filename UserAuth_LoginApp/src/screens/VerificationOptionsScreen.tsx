@@ -17,7 +17,7 @@ export default function VerificationOptionsScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Choose Verification</Text>
@@ -43,5 +43,5 @@ const styles = StyleSheet.create({
   button: { borderRadius: 8, paddingVertical: 14, width: '80%', marginVertical: 8 },
   buttonText: { textAlign: 'center', fontWeight: '600' },
   backButton: { position: 'absolute', top: 50, left: 20 },
-  backText: { color: 'white', fontSize: 16 },
+  backText: { fontSize: 16 },
 });

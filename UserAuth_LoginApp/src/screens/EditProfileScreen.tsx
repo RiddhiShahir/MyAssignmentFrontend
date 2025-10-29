@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type EditProfileProp = NativeStackNavigationProp<RootStackParamList, 'EditProfile'>;
 
@@ -16,6 +17,7 @@ export default function EditProfileScreen() {
   const [mobile, setMobile] = useState('');
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -58,7 +60,7 @@ export default function EditProfileScreen() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      Alert.alert('Success', 'Profile updated successfully.', [
+      Alert.alert(t('success'), t('profileUpdatedSuccessfully'), [
         {
           text: 'OK',
           onPress: () => navigation.navigate('Profile'),
@@ -73,21 +75,21 @@ export default function EditProfileScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>Edit Profile</Text>
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Full Name"
+        placeholder= {t('name')}
         value={name}
         onChangeText={setName}
       />
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Email"
+        placeholder= {t('email')}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -95,14 +97,14 @@ export default function EditProfileScreen() {
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Mobile"
+        placeholder= {t('mobile')}
         value={mobile}
         onChangeText={setMobile}
         keyboardType="phone-pad"
       />
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleUpdate}>
-        <Text style={[styles.buttonText,{color:theme.text}]}>Save Changes</Text>
+        <Text style={[styles.buttonText,{color:theme.text}]}>{t('saveChanges')}</Text>
       </TouchableOpacity>
     </View>
   );

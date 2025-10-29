@@ -5,12 +5,16 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
+
 
 type DashboardProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
 
 export default function DashboardScreen() {
   const navigation = useNavigation<DashboardProp>();
   const { theme } = useTheme();
+  const { t } = useLanguage();
+
 
   // useEffect(() => {
   //   const checkAuth = async () => {
@@ -70,21 +74,8 @@ export default function DashboardScreen() {
     return () => backHandler.remove(); // cleanup on unmount
   }, []);
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await AsyncStorage.removeItem('accessToken');
-  //     await AsyncStorage.removeItem('refreshToken');
-  //     await AsyncStorage.removeItem('userId');
-  //     Alert.alert('Success', 'Logged out successfully');
-  //     navigation.navigate('Home');
-  //   } catch (error: any) {
-  //     console.error('Logout error:', error);
-  //     Alert.alert('Error', 'Failed to log out. Please try again.');
-  //   }
-  // };
-
 const handleLogout = async () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
+    Alert.alert(t('logout'), t('logoutconfirmation'), [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Logout',
@@ -104,19 +95,19 @@ const handleLogout = async () => {
 
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
-      <Text style={[styles.title,{color:theme.text}]}>Welcome to Your Dashboard</Text>
-      <Text style={[styles.subtitle,{color:theme.text}]}>You are successfully logged in!</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('Welcome')}</Text>
+      <Text style={[styles.subtitle,{color:theme.text}]}>{t('msg')}</Text>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('Profile')} >
-        <Text style={[styles.buttonText,{color:theme.text}]}>View Profile</Text>
+        <Text style={[styles.buttonText,{color:theme.text}]}>{t('ViewProfile')}</Text>
       </TouchableOpacity>
 
      <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogout}>
-        <Text style={[styles.buttonText,{color:theme.text}]}>Logout</Text>
+        <Text style={[styles.buttonText,{color:theme.text}]}>{t('logout')}</Text>
       </TouchableOpacity>
       
     </View>

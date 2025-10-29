@@ -5,6 +5,7 @@ import axios from 'axios';
 import { RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type VerifyMobileProp = NativeStackNavigationProp<RootStackParamList, 'VerifyMobile'>;
 type VerifyMobileRouteProp = RouteProp<RootStackParamList, 'VerifyMobile'>;
@@ -19,6 +20,7 @@ export default function VerifyMobileScreen() {
   const [resendCooldown, setResendCooldown] = useState<number>(0);
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (resendCooldown > 0) {
@@ -29,7 +31,7 @@ export default function VerifyMobileScreen() {
 
   const handleVerifyMobile = async () => {
     if (!otp.trim()) {
-      return Alert.alert('Error', 'Please enter the OTP.');
+      return Alert.alert(t('error1'), t('otpRequired'));
     }
     setLoading(true);
     try {
@@ -37,7 +39,7 @@ export default function VerifyMobileScreen() {
       const res = await axios.post('http://10.0.2.2:5017/api/auth/verifyotp', { userId, otp });
       console.log('Verify OTP response:', res.data);
       if (res.status === 200) {
-        Alert.alert('Success', res.data.message || 'Mobile number verified successfully!');
+        Alert.alert(t('success'), res.data.message || t('mobileSuccessMessage'));
         if (res.data.status === 'Active') {
           navigation.navigate('Home');
         } else {
@@ -52,8 +54,8 @@ export default function VerifyMobileScreen() {
         request: error.request,
       });
       Alert.alert(
-        'Error',
-        error.response?.data?.error || 'Mobile verification failed. Please check the OTP and try again.'
+        t('error'),
+        error.response?.data?.error || t('errorMessage1')
       );
     } finally {
       setLoading(false);
@@ -66,7 +68,7 @@ export default function VerifyMobileScreen() {
       console.log('Sending resend OTP request:', { mobile });
       await axios.post('http://10.0.2.2:5017/api/auth/requestotp', { mobile });
       setResendCooldown(60);
-      Alert.alert('Success', 'OTP resent to your mobile.');
+      Alert.alert(t('resendSuccess'), t('resendMessage'));
     } catch (error: any) {
       console.error('Resend OTP Error:', {
         status: error.response?.status,
@@ -75,8 +77,8 @@ export default function VerifyMobileScreen() {
         request: error.request,
       });
       Alert.alert(
-        'Error',
-        error.response?.data?.error || 'Failed to resend OTP.'
+        t('error'),
+        error.response?.data?.error || t('resendErrorMessage1')
       );
     } finally {
       setLoading(false);
@@ -86,15 +88,15 @@ export default function VerifyMobileScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={[styles.backText,{color: theme.text}]}>← Back</Text>
+        <Text style={[styles.backText,{color: theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>Verify Mobile</Text>
-      <Text style={[styles.subtitle,{color: theme.text}]}>Mobile: {mobile}</Text>
-      <Text style={[styles.subtitle,{color: theme.text}]}>Enter the OTP sent to your mobile:</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('verifyMobile')}</Text>
+      <Text style={[styles.subtitle,{color: theme.text}]}>{t('mobile')}: {mobile}</Text>
+      <Text style={[styles.subtitle,{color: theme.text}]}>{t('instruction')}</Text>
 
       <TextInput
-        placeholder="OTP"
+        placeholder={t('otpPlaceholder')}
         style={[styles.input,{color:theme.text}]}
         value={otp}
         onChangeText={setOtp}

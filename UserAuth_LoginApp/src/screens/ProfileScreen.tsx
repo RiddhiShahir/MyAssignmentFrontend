@@ -6,6 +6,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type ProfileProp = NativeStackNavigationProp<RootStackParamList, 'Profile'>;
 
@@ -24,11 +25,12 @@ export default function ProfileScreen() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const fetchProfile = async () => {
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      if (!token) return Alert.alert('Error', 'Missing token. Please log in again.');
+      if (!token) return Alert.alert(t('error'), 'Missing token. Please log in again.');
 
       const response = await axios.get('http://10.0.2.2:5017/api/auth/profile', {
         headers: { Authorization: `Bearer ${token}` },
@@ -44,7 +46,7 @@ export default function ProfileScreen() {
       });
     } catch (error: any) {
       console.error('Profile fetch error:', error.response?.data || error.message);
-      Alert.alert('Error', 'Failed to fetch profile details.');
+      Alert.alert(t('error'), t('failedToFetchProfile'));
     }
   };
 
@@ -55,7 +57,7 @@ export default function ProfileScreen() {
   if (!profile) {
     return (
       <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading profile...</Text>
+        <Text style={styles.loadingText}>{t('LoadingProfile')}</Text>
       </View>
     );
   }
@@ -65,32 +67,32 @@ export default function ProfileScreen() {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Dashboard')}>
-        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>User Profile</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('userProfile')}</Text>
 
       <View style={styles.card}>
         <View style={styles.row}>
-          <Text style={styles.label}>Name</Text>
+          <Text style={styles.label}>{t('name')}</Text>
           <Text style={styles.colon}>:</Text>
           <Text style={styles.value}>{profile.name}</Text>
         </View>
 
         <View style={styles.row}>
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>{t('email')}</Text>
           <Text style={styles.colon}>:</Text>
           <Text style={styles.value}>{profile.email}</Text>
         </View>
 
         <View style={styles.row}>
-          <Text style={styles.label}>Mobile</Text>
+          <Text style={styles.label}>{t('mobile')}</Text>
           <Text style={styles.colon}>:</Text>
           <Text style={styles.value}>{profile.mobile}</Text>
         </View>
 
         <View style={styles.row}>
-          <Text style={styles.label}>Joined On</Text>
+          <Text style={styles.label}>{t('joinedOn')}</Text>
           <Text style={styles.colon}>:</Text>
           <Text style={styles.value}>
             {new Date(profile.createdAt).toLocaleDateString()}
@@ -98,7 +100,7 @@ export default function ProfileScreen() {
         </View>
 
         <View style={styles.row}>
-          <Text style={styles.label}>Last Updated</Text>
+          <Text style={styles.label}>{t('lastUpdated')}</Text>
           <Text style={styles.colon}>:</Text>
           <Text style={styles.value}>
             {new Date(profile.lastUpdatedDate).toLocaleDateString()}
@@ -108,13 +110,13 @@ export default function ProfileScreen() {
         <TouchableOpacity
           style={[styles.button,{backgroundColor:theme.primary } ,{ marginTop: 20 }]}
           onPress={() => navigation.navigate('ChangePassword')}>
-          <Text style={[styles.buttonText,{color: theme.text}]}>Update Password</Text>
+          <Text style={[styles.buttonText,{color: theme.text}]}>{t('updatePassword')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button,{backgroundColor: theme.primary}]}
           onPress={() => navigation.navigate('EditProfile')}>
-          <Text style={[styles.buttonText, { color: theme.text }]}>Edit Profile</Text>
+          <Text style={[styles.buttonText, { color: theme.text }]}>{t('editProfile')}</Text>
         </TouchableOpacity>
       </View>
     </View>

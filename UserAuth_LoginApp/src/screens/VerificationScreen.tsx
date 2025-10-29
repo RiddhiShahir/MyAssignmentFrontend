@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import axios from 'axios';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type VerificationScreenProp = NativeStackNavigationProp<RootStackParamList, 'Verification'>;
 type VerificationScreenRouteProp = RouteProp<RootStackParamList, 'Verification'>;
@@ -15,6 +16,7 @@ export default function VerificationScreen() {
   const route = useRoute<VerificationScreenRouteProp>();
   const { email, mobile, userId } = route.params; // Include userId
   const { theme } = useTheme();
+  const { t } = useLanguage(); // translation
 
   // Log params to debug
   console.log('VerificationScreen params:', { email, mobile, userId });
@@ -24,16 +26,16 @@ export default function VerificationScreen() {
       // Call resend endpoints for email and OTP
       await axios.post('http://10.0.2.2:5017/api/auth/requesttoken', { email });
       await axios.post('http://10.0.2.2:5017/api/auth/requestotp', { mobile });
-      Alert.alert('Success', 'Verification link and OTP have been resent successfully.');
+      Alert.alert(t('resendSuccessMessage'));
     } catch (error: any) {
-      console.error('Resend Verification Error:', {
+      console.error(t('resendVerificationError'), {
         status: error.response?.status,
         data: error.response?.data,
         message: error.message,
       });
       Alert.alert(
-        'Error',
-        error.response?.data?.error || 'Failed to resend verification. Please try again.'
+        t('error'),
+        error.response?.data?.error || t('resendErrorMessage')
       );
     }
   };
@@ -43,22 +45,22 @@ export default function VerificationScreen() {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Home')}>
-        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>Verification Required</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('verificationTitle')}</Text>
       <Text style={styles.subtitle}>
-        Your account has been created successfully. Please verify your email and mobile number.
+        {t('subtitle')}
       </Text>
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleResendVerification}>
-        <Text style={[styles.buttonText, { color: theme.text }]}>Resend Verification</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('resend')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('VerificationOptions', { email, mobile, userId })}>
-        <Text style={[styles.buttonText, { color: theme.text }]}>Proceed to Verification</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('proceed')}</Text>
       </TouchableOpacity>
     </View>
   );

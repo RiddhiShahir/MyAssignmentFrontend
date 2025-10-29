@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 // Define navigation prop
 type RegisterScreenProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
@@ -13,6 +14,7 @@ export default function RegisterScreen() {
   const navigation = useNavigation<RegisterScreenProp>();
 
   const {theme} = useTheme();
+  const { t } = useLanguage();
 
   const [form, setForm] = useState({
     name: '',
@@ -42,46 +44,45 @@ export default function RegisterScreen() {
     let newErrors: any = {};
 
     if (!form.name.trim()) {
-      newErrors.name = 'Name is required.';
+      newErrors.name = t('nameRequired');
       valid = false;
     } else if (form.name.trim().length < 3) {
-      newErrors.name = 'Name must be at least 3 characters long.';
+      newErrors.name = t('nameMinLength');
       valid = false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!form.email.trim()) {
-      newErrors.email = 'Email is required.';
+      newErrors.email = t('emailRequired');
       valid = false;
     } else if (!emailRegex.test(form.email)) {
-      newErrors.email = 'Enter a valid email address.';
+      newErrors.email = t('emailInvalid');
       valid = false;
     }
 
     const mobileRegex = /^[0-9]{10}$/;
     if (!form.mobile.trim()) {
-      newErrors.mobile = 'Mobile number is required.';
+      newErrors.mobile = t('mobileRequired');
       valid = false;
     } else if (!mobileRegex.test(form.mobile)) {
-      newErrors.mobile = 'Mobile number must be exactly 10 digits.';
+      newErrors.mobile = t('mobileInvalid');
       valid = false;
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@_$&!])[A-Za-z\d@_$&!]{8,}$/;
     if (!form.password.trim()) {
-      newErrors.password = 'Password is required.';
+      newErrors.password = t('passwordRequired');
       valid = false;
     } else if (!passwordRegex.test(form.password)) {
-      newErrors.password =
-        'Must contain 1 uppercase, 1 lowercase, 1 special char (@, _, $, &, !), and be ≥ 8 chars.';
+      newErrors.password = t('passwordPolicy');
       valid = false;
     }
 
     if (!form.confirmPassword.trim()) {
-      newErrors.confirmPassword = 'Please confirm your password.';
+      newErrors.confirmPassword = t('confirmRequired');
       valid = false;
     } else if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match.';
+      newErrors.confirmPassword = t('passwordMismatch');
       valid = false;
     }
 
@@ -109,11 +110,11 @@ export default function RegisterScreen() {
       if (response.status === 200) {
         const { userId } = response.data; // get userId
         Alert.alert(
-          'Registration Successful',
-          'Verification links have been sent to your email and mobile.',
+          t('successTitle'),
+          t('successMessage'),
           [
             {
-              text: 'Proceed to Verification Screen',
+              text: t('proceedBtn'),
               onPress: () =>
                 navigation.navigate('Verification', {
                   email: form.email,
@@ -124,13 +125,13 @@ export default function RegisterScreen() {
           ]
         );
       } else {
-        Alert.alert('Error', 'Failed to register user. Please try again.');
+        Alert.alert(t('RegistrationError'));
       }
     } catch (error: any) {
       console.error('Registration Error:', error.response || error.message || error);
       Alert.alert(
-        'Network Error',
-        'Unable to reach the server. Please check your API URL or connection.'
+        t('errorTitle'),
+        t('errorMessage')
       );
     }
   };
@@ -140,13 +141,13 @@ export default function RegisterScreen() {
 
       {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
-        <Text style={[styles.backText,{color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText,{color:theme.text}]}> {t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.header, {color: theme.text}]}>User Registration</Text>
+      <Text style={[styles.header, {color: theme.text}]}>{t('userRegistration')}</Text>
 
       <TextInput
-        placeholder="Name"
+        placeholder={t("name")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.name}
         onChangeText={(text) => handleChange('name', text)}
@@ -154,7 +155,7 @@ export default function RegisterScreen() {
       {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
 
       <TextInput
-        placeholder="Email"
+        placeholder={t("email")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.email}
         keyboardType="email-address"
@@ -162,7 +163,7 @@ export default function RegisterScreen() {
       {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
 
       <TextInput
-        placeholder="Mobile Number"
+        placeholder={t("mobile")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.mobile}
         keyboardType="numeric"
@@ -171,7 +172,7 @@ export default function RegisterScreen() {
       {errors.mobile ? <Text style={styles.errorText}>{errors.mobile}</Text> : null}
 
       <TextInput
-        placeholder="Password"
+        placeholder={t("password")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.password}
         secureTextEntry
@@ -179,7 +180,7 @@ export default function RegisterScreen() {
       {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
 
       <TextInput
-        placeholder="Confirm Password"
+        placeholder={t("confirmPassword")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.confirmPassword}
         secureTextEntry
@@ -189,7 +190,7 @@ export default function RegisterScreen() {
       ) : null}
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleSubmit}>
-        <Text style={[styles.buttonText, { color: theme.text }]}>Submit</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('submit')}</Text>
       </TouchableOpacity>
     </View>
   );

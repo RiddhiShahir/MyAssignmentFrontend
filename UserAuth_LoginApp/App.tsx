@@ -19,6 +19,9 @@ import EditProfileScreen from './src/screens/EditProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import { ThemeProvider } from './src/screens/context/ThemesContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import './src/i18n';
+import { LanguageProvider } from './src/screens/context/LanguageContext';
+
 
 export type RootStackParamList = {
   Home: undefined;
@@ -46,6 +49,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <ThemeProvider>
+      <LanguageProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -67,6 +71,7 @@ export default function App() {
 
       </Stack.Navigator>
     </NavigationContainer>
+    </LanguageProvider>
     </ThemeProvider>
   );
 }

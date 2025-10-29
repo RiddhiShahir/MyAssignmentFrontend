@@ -5,6 +5,7 @@ import axios from 'axios';
 import { RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type VerifyEmailProp = NativeStackNavigationProp<RootStackParamList, 'VerifyEmail'>;
 type VerifyEmailRouteProp = RouteProp<RootStackParamList, 'VerifyEmail'>;
@@ -19,6 +20,7 @@ export default function VerifyEmailScreen() {
   const [resendCooldown, setResendCooldown] = useState<number>(0);
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (resendCooldown > 0) {
@@ -29,7 +31,7 @@ export default function VerifyEmailScreen() {
 
   const handleVerifyEmail = async () => {
     if (!token.trim()) {
-      return Alert.alert('Error', 'Please enter the verification token.');
+      return Alert.alert(t('verificationTokenRequired'));
     }
     setLoading(true);
     try {
@@ -37,7 +39,7 @@ export default function VerifyEmailScreen() {
       const res = await axios.post('http://10.0.2.2:5017/api/auth/verifyemail', { userId, token });
       console.log('Verify email response:', res.data);
       if (res.status === 200) {
-        Alert.alert('Success', res.data.message || 'Email verified successfully!');
+        Alert.alert(t('success'), res.data.message || t('emailSuccess'));
         if (res.data.status === 'Active') {
           navigation.navigate('Home');
         } else {
@@ -52,8 +54,8 @@ export default function VerifyEmailScreen() {
         request: error.request,
       });
       Alert.alert(
-        'Error',
-        error.response?.data?.error || 'Email verification failed. Please check the token and try again.'
+        t('error'),
+        error.response?.data?.error || t('emailError')
       );
     } finally {
       setLoading(false);
@@ -75,8 +77,8 @@ export default function VerifyEmailScreen() {
         request: error.request,
       });
       Alert.alert(
-        'Error',
-        error.response?.data?.error || 'Failed to resend verification link.'
+        t('error'),
+        error.response?.data?.error || t('emailResendError')
       );
     } finally {
       setLoading(false);
@@ -86,15 +88,15 @@ export default function VerifyEmailScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>Verify Email</Text>
-      <Text style={[styles.subtitle, {color:theme.text}]}>Email: {email}</Text>
-      <Text style={[styles.subtitle, {color:theme.text}]}>Enter the verification token from your email:</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('verifyEmail')}</Text>
+      <Text style={[styles.subtitle, {color:theme.text}]}>{t('email')}: {email}</Text>
+      <Text style={[styles.subtitle, {color:theme.text}]}>{t('emailVerificationTokenRequired')}</Text>
 
       <TextInput
-        placeholder="Verification Token"
+        placeholder={t('verificationToken')}
         style={[styles.input,{color: theme.text}]}
         value={token}
         onChangeText={setToken}
@@ -104,7 +106,7 @@ export default function VerifyEmailScreen() {
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleVerifyEmail}
         disabled={loading}>
-        <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? 'Verifying...' : 'Verify Now'}</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? t('verifying') : t('verifyEmailNow')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -112,7 +114,7 @@ export default function VerifyEmailScreen() {
         onPress={handleResend}
         disabled={loading || resendCooldown > 0}>
         <Text style={[styles.buttonText, { color: theme.text }]}>
-          {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : 'Resend Verification Link'}
+          {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : t('resendVerificationLink')}
         </Text>
       </TouchableOpacity>
     </View>

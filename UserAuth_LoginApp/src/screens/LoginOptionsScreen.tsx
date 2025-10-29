@@ -1,38 +1,39 @@
-// src/screens/LoginOptionsScreen.tsx
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type LoginOptionsProp = NativeStackNavigationProp<RootStackParamList, 'LoginOptions'>;
 
 export default function LoginOptionsScreen() {
   const navigation = useNavigation<LoginOptionsProp>();
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Home')}>
-        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>Login Options</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('loginOptions')}</Text>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('LoginViaEmail')}>
-        <Text style={[styles.buttonText, { color: theme.text }]}>Login via Email</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('LoginViaEmail')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('LoginViaMobile')}
       >
-        <Text style={[styles.buttonText, { color: theme.text }]}>Login via Mobile</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('LoginViaMobile')}</Text>
       </TouchableOpacity>
     </View>
   );

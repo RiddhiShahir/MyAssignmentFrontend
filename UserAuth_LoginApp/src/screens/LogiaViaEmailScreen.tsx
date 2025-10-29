@@ -6,6 +6,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type LoginEmailProp = NativeStackNavigationProp<RootStackParamList, 'LoginViaEmail'>;
 
@@ -16,15 +17,16 @@ export default function LoginViaEmailScreen() {
   const [loading, setLoading] = useState(false);
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const handleLogin = async () => {
     if (!email || !password) {
-      return Alert.alert('Error', 'Please enter both email and password.');
+      return Alert.alert(t('error'), t('loginCredRequired'));
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return Alert.alert('Error', 'Please enter a valid email address.');
+      return Alert.alert(t('error'), t('emailInvalid'));
     }
 
     setLoading(true);
@@ -42,11 +44,11 @@ export default function LoginViaEmailScreen() {
       await AsyncStorage.setItem('refreshToken', refreshToken);
       await AsyncStorage.setItem('userId', userId.toString());
 
-      Alert.alert('Success', message || 'Login successful!');
+      Alert.alert(t('success'), message || t('LoginSuccess'));
       navigation.navigate('Dashboard');
     } catch (error: any) {
       console.error('Login error:', error);
-      Alert.alert('Error', error.response?.data?.error || 'Login failed.');
+      Alert.alert(t('error'), error.response?.data?.error || t('LoginFailed'));
     } finally {
       setLoading(false);
     }
@@ -55,14 +57,14 @@ export default function LoginViaEmailScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={[styles.backText,{color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText,{color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>Login via Email</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('LoginViaEmail')}</Text>
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Email"
+        placeholder= {t('email')}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -71,7 +73,7 @@ export default function LoginViaEmailScreen() {
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Password"
+        placeholder={t('password')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -80,14 +82,14 @@ export default function LoginViaEmailScreen() {
       <TouchableOpacity
         style={styles.linkButton}
         onPress={() => navigation.navigate('ForgotPassword', { email })}>
-        <Text style={styles.linkText}>Forgot Password?</Text>
+        <Text style={styles.linkText}>{t('ForgotPassword')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleLogin}
         disabled={loading}>
-        <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Login'}</Text>
+        <Text style={styles.buttonText}>{loading ? t('loggingIn') : t('login')}</Text>
       </TouchableOpacity>
     </View>
   );

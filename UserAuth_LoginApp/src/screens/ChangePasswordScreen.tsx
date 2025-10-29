@@ -72,6 +72,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList, 'ChangePassword'>;
 
@@ -82,20 +83,21 @@ export default function ChangePasswordScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const handleChangePassword = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
-      Alert.alert('Error', 'Please fill all fields');
+      Alert.alert(t('error'), t('Please fill all fields'));
       return;
     }
     if (newPassword !== confirmPassword) {
-      Alert.alert('Error', 'New passwords do not match');
+      Alert.alert(t('error'), t('New passwords do not match'));
       return;
     }
 
     try {
       const token = await AsyncStorage.getItem('accessToken');
-      if (!token) return Alert.alert('Error', 'Missing token. Please log in again.');
+      if (!token) return Alert.alert(t('error'), t('Missing token. Please log in again.'));
 
       const response = await axios.post(
         'http://10.0.2.2:5017/api/auth/changepassword',
@@ -103,11 +105,11 @@ export default function ChangePasswordScreen() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      Alert.alert('Success', response.data.message);
+      Alert.alert(t('success'), response.data.message);
       navigation.navigate('Dashboard');
     } catch (error: any) {
       console.error('Change password error:', error.response?.data || error.message);
-      Alert.alert('Error', error.response?.data?.message || 'Failed to change password');
+      Alert.alert(t('error'), error.response?.data?.message || t('failedToChangePassword'));
     }
   };
 
@@ -118,35 +120,35 @@ export default function ChangePasswordScreen() {
      <TouchableOpacity 
         style={styles.backButton}
         onPress={() => navigation.navigate('Profile')}>
-        <Text style={[styles.backText, {color:theme.text}]}>← Back</Text>
+        <Text style={[styles.backText, {color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.title,{color:theme.text}]}>Update Password</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('updatePassword')}</Text>
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Current Password"
+        placeholder= {t('CurrentPassword')}
         secureTextEntry
         value={currentPassword}
         onChangeText={setCurrentPassword}
       />
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="New Password"
+        placeholder= {t('NewPassword')}
         secureTextEntry
         value={newPassword}
         onChangeText={setNewPassword}
       />
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Confirm New Password"
+        placeholder= {t('ConfirmNewPassword')}
         secureTextEntry
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleChangePassword}>
-        <Text style={[styles.buttonText,{color : theme.text}]}>Update Password</Text>
+        <Text style={[styles.buttonText,{color : theme.text}]}>{t('updatePassword')}</Text>
       </TouchableOpacity>
 
     </View>

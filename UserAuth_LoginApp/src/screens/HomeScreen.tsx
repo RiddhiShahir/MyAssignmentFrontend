@@ -4,32 +4,34 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type HomeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenProp>();
   const { theme } = useTheme();
+  const { t } = useLanguage();   // translation hook
 
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
-      <Text style={[styles.title,{color:theme.text}]}>Welcome to UserAuth & Login App</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('Welcome to UserAuth & Login App')}</Text>
       <TouchableOpacity
         style={[styles.button, { backgroundColor: theme.primary }]}
-        onPress={() => navigation.navigate('Register')} >
-        <Text style={[styles.buttonText, { color: theme.text }]}>Register User</Text>
+        onPress={() => navigation.navigate('Register')} > 
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('Register User')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button, { backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('LoginOptions')} >
-        <Text style={[styles.buttonText, { color: theme.text }]}>Login</Text>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{t('login')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
        style={[styles.button, { backgroundColor: theme.primary }]}
        onPress={() => navigation.navigate('Settings')}>
-       <Text style={[styles.buttonText, { color: theme.text }]}>Settings</Text>
+       <Text style={[styles.buttonText, { color: theme.text }]}>{t('settings')}</Text>
       </TouchableOpacity>
 
     </View>

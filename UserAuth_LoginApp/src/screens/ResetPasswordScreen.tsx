@@ -5,6 +5,8 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
+import PasswordInput from '.././components/PasswordInput';
 
 type ResetPasswordProp = NativeStackNavigationProp<RootStackParamList, 'ResetPassword'>;
 
@@ -19,10 +21,11 @@ export default function ResetPasswordScreen() {
   const [loading, setLoading] = useState(false);
 
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const handleResetPassword = async () => {
     if (!email || !token || !newPassword) {
-      return Alert.alert('Error', 'Please fill all fields.');
+      return Alert.alert(t('error'), t('pleaseFillAllFields'));
     }
     setLoading(true);
     try {
@@ -31,11 +34,11 @@ export default function ResetPasswordScreen() {
         token,
         newPassword,
       });
-      Alert.alert('Success', res.data.message || 'Password reset successful!');
+      Alert.alert(t('success'), res.data.message || t('passwordResetSuccessful'));
       navigation.navigate('LoginViaEmail');
     } catch (error: any) {
       console.error('Reset password error:', error.response?.data || error.message);
-      Alert.alert('Error', error.response?.data?.error || 'Failed to reset password.');
+      Alert.alert(t('error'), error.response?.data?.error || t('failedToResetPassword'));
     } finally {
       setLoading(false);
     }
@@ -43,11 +46,11 @@ export default function ResetPasswordScreen() {
 
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
-      <Text style={[styles.title,{color:theme.text}]}>Reset Password</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('resetPassword')}</Text>
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Email"
+        placeholder={t('email')}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -55,17 +58,24 @@ export default function ResetPasswordScreen() {
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Enter Token"
+        placeholder={t('enterToken')}
         value={token}
         onChangeText={setToken}
       />
 
-      <TextInput
+      {/* <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="New Password"
+        placeholder={t('newPassword')}
         secureTextEntry
         value={newPassword}
         onChangeText={setNewPassword}
+      /> */}
+
+      <PasswordInput
+       placeholder={t('newPassword')}
+       value={newPassword}
+       onChangeText={setNewPassword}
+       style={[styles.input, { backgroundColor: theme.input }]}
       />
 
       <TouchableOpacity
@@ -73,7 +83,7 @@ export default function ResetPasswordScreen() {
         onPress={handleResetPassword}
         disabled={loading}>
         <Text style={[styles.buttonText, { color: theme.text }]}>
-          {loading ? 'Resetting...' : 'Submit'}
+          {loading ? t('resetting') : t('submit')}
         </Text>
       </TouchableOpacity>
     </View>

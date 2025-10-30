@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
 import { useLanguage } from './context/LanguageContext';
+import PasswordInput from './../components/PasswordInput';
+
 
 // Define navigation prop
 type RegisterScreenProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
@@ -125,10 +127,10 @@ export default function RegisterScreen() {
           ]
         );
       } else {
-        Alert.alert(t('RegistrationError'));
+        Alert.alert(t('RegisterationError'));
       }
     } catch (error: any) {
-      console.error('Registration Error:', error.response || error.message || error);
+      console.error('Registeration Error:', error.response || error.message || error);
       Alert.alert(
         t('errorTitle'),
         t('errorMessage')
@@ -144,7 +146,7 @@ export default function RegisterScreen() {
         <Text style={[styles.backText,{color:theme.text}]}> {t('back')}</Text>
       </TouchableOpacity>
 
-      <Text style={[styles.header, {color: theme.text}]}>{t('userRegistration')}</Text>
+      <Text style={[styles.header, {color: theme.text}]}>{t('userRegisteration')}</Text>
 
       <TextInput
         placeholder={t("name")}
@@ -171,23 +173,44 @@ export default function RegisterScreen() {
         onChangeText={(text) => handleChange('mobile', text)}/>
       {errors.mobile ? <Text style={styles.errorText}>{errors.mobile}</Text> : null}
 
-      <TextInput
+      {/* <TextInput
         placeholder={t("password")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.password}
         secureTextEntry
         onChangeText={(text) => handleChange('password', text)}/>
-      {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+      {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null} */}
 
-      <TextInput
+         {/* <TextInput
         placeholder={t("confirmPassword")}
         style={[styles.input,{ backgroundColor: theme.input }]}
         value={form.confirmPassword}
         secureTextEntry
         onChangeText={(text) => handleChange('confirmPassword', text)} />
-      {errors.confirmPassword ? (
+       {errors.confirmPassword ? (
         <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-      ) : null}
+       ) : null} */}
+
+
+      <PasswordInput
+  placeholder={t("password")}
+  value={form.password}
+  onChangeText={(text) => handleChange('password', text)}
+  style={[styles.input, { backgroundColor: theme.input }]}
+  // iconColor={theme.text}
+/>
+{errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null}
+
+<PasswordInput
+  placeholder={t("confirmPassword")}
+  value={form.confirmPassword}
+  onChangeText={(text) => handleChange('confirmPassword', text)}
+  style={[styles.input, { backgroundColor: theme.input }]}
+/>
+{errors.confirmPassword ? (
+  <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+) : null}
+
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleSubmit}>
         <Text style={[styles.buttonText, { color: theme.text }]}>{t('submit')}</Text>

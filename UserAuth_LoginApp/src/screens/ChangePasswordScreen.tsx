@@ -1,69 +1,3 @@
-
-// import React, { useState } from 'react';
-// import { View, TextInput, Button, Alert } from 'react-native';
-// import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
-// // Define navigation types
-// type RootStackParamList = {
-//   ChangePassword: undefined;
-//   // Add other screens if needed
-// };
-
-// // Define navigation prop type for this screen
-// type ChangePasswordScreenNavigationProp = NativeStackNavigationProp<
-//   RootStackParamList,
-//   'ChangePassword'
-// >;
-
-// // Type your props
-// type Props = {
-//   navigation: ChangePasswordScreenNavigationProp;
-// };
-
-// export default function ChangePasswordScreen({ navigation }: Props) {
-//   const [currentPassword, setCurrentPassword] = useState('');
-//   const [newPassword, setNewPassword] = useState('');
-
-//   const handleChangePassword = async () => {
-//     try {
-//       const token = await AsyncStorage.getItem('jwt'); // stored at login
-//       await axios.post(
-//         'http://localhost:5017/api/auth/changepassword',
-//         { currentPassword, newPassword },
-//         { headers: { Authorization: `Bearer ${token}` } }
-//       );
-//       Alert.alert('Success', 'Password changed successfully!');
-//       navigation.goBack();
-//     } catch (error: unknown) {
-//       if (axios.isAxiosError(error)) {
-//         Alert.alert('Error', error.response?.data?.message || 'Request failed');
-//       } else {
-//         Alert.alert('Error', 'Unexpected error occurred');
-//       }
-//     }
-//   };
-
-//   return (
-//     <View style={{ padding: 20 }}>
-//       <TextInput
-//         placeholder="Current password"
-//         value={currentPassword}
-//         secureTextEntry
-//         onChangeText={setCurrentPassword}
-//       />
-//       <TextInput
-//         placeholder="New password"
-//         value={newPassword}
-//         secureTextEntry
-//         onChangeText={setNewPassword}
-//       />
-//       <Button title="Change Password" onPress={handleChangePassword} />
-//     </View>
-//   );
-// }
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -73,6 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
 import { useLanguage } from './context/LanguageContext';
+import PasswordInput from '.././components/PasswordInput';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList, 'ChangePassword'>;
 
@@ -125,7 +60,7 @@ export default function ChangePasswordScreen() {
 
       <Text style={[styles.title,{color:theme.text}]}>{t('updatePassword')}</Text>
 
-      <TextInput
+      {/* <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
         placeholder= {t('CurrentPassword')}
         secureTextEntry
@@ -145,6 +80,27 @@ export default function ChangePasswordScreen() {
         secureTextEntry
         value={confirmPassword}
         onChangeText={setConfirmPassword}
+      /> */}
+
+      <PasswordInput
+       placeholder={t('CurrentPassword')}
+       value={currentPassword}
+       onChangeText={setCurrentPassword}
+        style={[styles.input, { backgroundColor: theme.input }]}
+      />
+
+      <PasswordInput    
+        placeholder={t('NewPassword')}
+        value={newPassword}
+        onChangeText={setNewPassword}
+        style={[styles.input, { backgroundColor: theme.input }]}
+      />
+
+      <PasswordInput
+        placeholder={t('ConfirmNewPassword')}
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        style={[styles.input, { backgroundColor: theme.input }]}
       />
 
       <TouchableOpacity style={[styles.button,{ backgroundColor: theme.primary }]} onPress={handleChangePassword}>

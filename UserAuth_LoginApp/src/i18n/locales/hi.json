@@ -2,7 +2,7 @@
 {
   "loginViaEmail": "ईमेल से लॉगिन करें",
   "rememberMe": "मुझे याद रखें",
-  "forgotPassword": "पासवर्ड भूल गए?",
+  "forgotPassword": "पासवर्ड भूल गए",
   "login": "लॉगिन",
   "loggingIn": "लॉगिन हो रहा है…",
   "settings": "सेटिंग्स",
@@ -15,7 +15,7 @@
   "editProfile": "प्रोफ़ाइल संपादित करें",
   "logout": "लॉगआउट",
   "language": "भाषा",
-  "Welcome to UserAuth & Login App": "UserAuth & Login App में आपका स्वागत है",
+  "Welcome to UserAuth & Login App": "'उपयोगकर्ताप्रमाणन और लॉगिन ऐप' में आपका स्वागत है",
   "Register User": "उपयोगकर्ता पंजीकृत करें",
     
         "title": "उपयोगकर्ता पंजीकरण",
@@ -42,7 +42,7 @@
         "registrationError": "पंजीकरण त्रुटि:",
         "errorTitle": "नेटवर्क त्रुटि",
         "errorMessage": "सर्वर तक पहुंचने में असमर्थ। कृपया अपने API URL या कनेक्शन की जांच करें।",
-        "userRegistration": "उपयोगकर्ता पंजीकरण",
+        "userRegisteration": "उपयोगकर्ता पंजीकरण",
 
     "verificationTitle": "सत्यापन आवश्यक",
     "subtitle": "आपका खाता सफलतापूर्वक बनाया गया है। कृपया अपने ईमेल और मोबाइल नंबर को सत्यापित करें।",
@@ -120,6 +120,19 @@
     "LoadingProfile":"प्रोफ़ाइल लोड हो रही है।",
     "failedToFetchProfile":"प्रोफ़ाइल विवरण प्राप्त करने में विफल।",
     "profileUpdatedSuccessfully":"प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई।",
-    "saveChanges":"परिवर्तन सहेजें"
+    "saveChanges":"परिवर्तन सहेजें",
+
+    "pleaseEnterYourEmail":"कृपया अपना ईमेल दर्ज करें।",
+    "verificationEmailSent":"सत्यापन ईमेल भेजा गया!",
+    "failedToSendResetToken":"रीसेट टोकन भेजने में विफल।",
+    "enterEmail":"कृपया अपना पंजीकृत ईमेल दर्ज करें।",
+    "resetPassword":"पासवर्ड रीसेट करें",
+
+    "pleaseFillAllFields":"कृपया सभी फ़ील्ड भरें।",
+    "passwordResetSuccessful":"पासवर्ड सफलतापूर्वक रीसेट हो गया!",
+    "failedToResetPassword":"पासवर्ड रीसेट करने में विफल।",
+    "enterToken":"टोकन दर्ज करें",
+    "newPassword":"नया पासवर्ड",
+    "resetting":"रीसेट हो रहा है..."
 
 }

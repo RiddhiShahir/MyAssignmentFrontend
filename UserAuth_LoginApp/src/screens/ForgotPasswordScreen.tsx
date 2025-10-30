@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
+import { useLanguage } from './context/LanguageContext';
 
 type ForgotPasswordProp = NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;
 
@@ -15,18 +16,19 @@ export default function ForgotPasswordScreen() {
   const [loading, setLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   const handleVerify = async () => {
-    if (!email) return Alert.alert('Error', 'Please enter your email.');
+    if (!email) return Alert.alert(t('error'), t('pleaseEnterYourEmail'));
     setLoading(true);
     try {
       const res = await axios.post('http://10.0.2.2:5017/api/auth/forgotpassword', { email });
-      Alert.alert('Success', res.data.message || 'Verification email sent!');
+      Alert.alert(t('success'), res.data.message || t('verificationEmailSent'));
       setToken(res.data.token); // backend should return the token (optional)
       setIsVerified(true);
     } catch (error: any) {
       console.error('Forgot password error:', error.response?.data || error.message);
-      Alert.alert('Error', error.response?.data?.error || 'Failed to send reset token.');
+      Alert.alert(t('error'), error.response?.data?.error || t('failedToSendResetToken'));
     } finally {
       setLoading(false);
     }
@@ -34,11 +36,11 @@ export default function ForgotPasswordScreen() {
 
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
-      <Text style={[styles.title,{color:theme.text}]}>Forgot Password</Text>
+      <Text style={[styles.title,{color:theme.text}]}>{t('ForgotPassword')}</Text>
 
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
-        placeholder="Enter your registered email"
+        placeholder= {t('enterEmail')}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -48,8 +50,8 @@ export default function ForgotPasswordScreen() {
         style={[styles.button,{ backgroundColor: theme.primary }]}
         onPress={handleVerify}
         disabled={loading}>
-        <Text style={[styles.buttonText,,{color:theme.text}]}>
-          {loading ? 'Verifying...' : 'Verify Email'}
+        <Text style={[styles.buttonText,{color:theme.text}]}>
+          {loading ? t('verifying') : t('verifyEmail')}
         </Text>
       </TouchableOpacity>
 
@@ -57,7 +59,7 @@ export default function ForgotPasswordScreen() {
         <TouchableOpacity
           style={[styles.button, { backgroundColor: theme.primary }]}
           onPress={() => navigation.navigate('ResetPassword', { email, token })}>
-          <Text style={styles.buttonText}>Reset Password</Text>
+          <Text style={[styles.buttonText,{color:theme.text}]}>{t('resetPassword')}</Text>
         </TouchableOpacity>
       )}
     </View>

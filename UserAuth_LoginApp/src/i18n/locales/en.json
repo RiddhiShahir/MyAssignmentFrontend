@@ -2,7 +2,7 @@
 {
   "loginViaEmail": "Login via Email",
   "rememberMe": "Remember Me",
-  "forgotPassword": "Forgot Password?",
+  "forgotPassword": "Forgot Password",
   "login": "Login",
   "loggingIn": "Logging in…",
   "settings": "Settings",
@@ -16,7 +16,7 @@
   "editProfile": "Edit Profile",
   "logout": "Logout",
   "language": "Language",
-  "Welcome to UserAuth & Login App": "Welcome to UserAuth & Login App",
+  "Welcome to UserAuth & Login App": "Welcome to 'UserAuth & Login App'",
   "Register User": "Register User",
 
   
@@ -44,7 +44,7 @@
     "registrationError": "Registration Error:",
     "errorTitle": "Network Error",
     "errorMessage": "Unable to reach the server. Please check your API URL or connection.",
-    "userRegistration": "User Registration",
+    "userRegisteration": "User Registeration",
   
     "verificationTitle": "Verification Required",
     "subtitle": "Your account has been created successfully. Please verify your email and mobile number.",
@@ -121,5 +121,18 @@
     "LoadingProfile":"Loading Profile...",
     "failedToFetchProfile":"Failed to fetch profile details.",
     "profileUpdatedSuccessfully":"Profile updated successfully.",
-    "saveChanges":"Save Changes"
+    "saveChanges":"Save Changes",
+
+    "pleaseEnterYourEmail":"Please enter your email.",
+    "verificationEmailSent":"Verification email sent!",
+    "failedToSendResetToken":"Failed to send reset token.",
+    "enterEmail":"Enter your registered email",
+    "resetPassword":"Reset Password",
+
+    "pleaseFillAllFields":"Please fill all fields.",
+    "passwordResetSuccessful":"Password reset successful!",
+    "failedToResetPassword":"Failed to reset password.",
+    "enterToken":"Enter Token",
+    "newPassword":"New Password",
+    "resetting":"Resetting..."
 }

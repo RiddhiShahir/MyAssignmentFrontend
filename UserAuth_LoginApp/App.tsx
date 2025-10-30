@@ -18,8 +18,6 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import { ThemeProvider } from './src/screens/context/ThemesContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-//import './src/i18n';
 import { LanguageProvider } from './src/screens/context/LanguageContext';
 
 

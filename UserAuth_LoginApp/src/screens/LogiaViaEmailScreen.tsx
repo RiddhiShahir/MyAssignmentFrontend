@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
 import { useTheme } from './context/ThemesContext';
 import { useLanguage } from './context/LanguageContext';
+import PasswordInput from '.././components/PasswordInput';
 
 type LoginEmailProp = NativeStackNavigationProp<RootStackParamList, 'LoginViaEmail'>;
 
@@ -71,13 +72,20 @@ export default function LoginViaEmailScreen() {
         autoCapitalize="none"
       />
 
-      <TextInput
+      {/* <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
         placeholder={t('password')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-      />
+      /> */}
+
+      <PasswordInput
+      placeholder={t('password')}
+      value={password}
+      onChangeText={setPassword}
+      style={[styles.input, { backgroundColor: theme.input }]}
+     />
 
       <TouchableOpacity
         style={styles.linkButton}

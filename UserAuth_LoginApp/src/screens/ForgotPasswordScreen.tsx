@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 type ForgotPasswordProp = NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;
 
@@ -38,6 +38,11 @@ export default function ForgotPasswordScreen() {
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <Text style={[styles.title,{color:theme.text}]}>{t('ForgotPassword')}</Text>
 
+       {/* Back Button */}
+       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('LoginViaEmail')}>
+           <Text style={[styles.backText,{color:theme.text}]}> {t('back')}</Text>
+       </TouchableOpacity>
+
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
         placeholder= {t('enterEmail')}
@@ -51,7 +56,7 @@ export default function ForgotPasswordScreen() {
         onPress={handleVerify}
         disabled={loading}>
         <Text style={[styles.buttonText,{color:theme.text}]}>
-          {loading ? t('verifying') : t('verifyEmail')}
+        {loading ? t('verifying') : t('verifyEmail')}
         </Text>
       </TouchableOpacity>
 
@@ -94,4 +99,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
   },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+  },
+  backText: {fontSize: 16,},
 });

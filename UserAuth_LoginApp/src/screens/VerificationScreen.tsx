@@ -5,8 +5,8 @@ import { RouteProp } from '@react-navigation/native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import axios from 'axios';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 type VerificationScreenProp = NativeStackNavigationProp<RootStackParamList, 'Verification'>;
 type VerificationScreenRouteProp = RouteProp<RootStackParamList, 'Verification'>;

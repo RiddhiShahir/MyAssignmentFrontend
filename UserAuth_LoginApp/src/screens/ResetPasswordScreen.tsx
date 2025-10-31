@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 import PasswordInput from '.././components/PasswordInput';
 
 type ResetPasswordProp = NativeStackNavigationProp<RootStackParamList, 'ResetPassword'>;
@@ -48,6 +48,11 @@ export default function ResetPasswordScreen() {
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <Text style={[styles.title,{color:theme.text}]}>{t('resetPassword')}</Text>
 
+        {/* Back Button */}
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
+              <Text style={[styles.backText,{color:theme.text}]}> {t('back')}</Text>
+            </TouchableOpacity>
+
       <TextInput
         style={[styles.input,{backgroundColor:theme.input}]}
         placeholder={t('email')}
@@ -72,10 +77,11 @@ export default function ResetPasswordScreen() {
       /> */}
 
       <PasswordInput
+      style={[styles.input, { backgroundColor: theme.input }]}
        placeholder={t('newPassword')}
        value={newPassword}
        onChangeText={setNewPassword}
-       style={[styles.input, { backgroundColor: theme.input }]}
+       
       />
 
       <TouchableOpacity
@@ -118,4 +124,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
   },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+  },
+  backText: {fontSize: 16,},
 });

@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 type VerificationOptionsProp = NativeStackNavigationProp<RootStackParamList, 'VerificationOptions'>;
 type VerificationOptionsRouteProp = RouteProp<RootStackParamList, 'VerificationOptions'>;

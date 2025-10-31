@@ -5,8 +5,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 import PasswordInput from '.././components/PasswordInput';
 
 type LoginEmailProp = NativeStackNavigationProp<RootStackParamList, 'LoginViaEmail'>;
@@ -57,7 +57,7 @@ export default function LoginViaEmailScreen() {
 
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('LoginOptions')}>
         <Text style={[styles.backText,{color:theme.text}]}>{t('back')}</Text>
       </TouchableOpacity>
 

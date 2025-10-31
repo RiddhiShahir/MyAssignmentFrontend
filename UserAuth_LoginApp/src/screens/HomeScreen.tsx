@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 type HomeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -16,10 +16,33 @@ export default function HomeScreen() {
   return (
     <View style={[styles.container,{backgroundColor:theme.background}]}>
       <Text style={[styles.title,{color:theme.text}]}>{t('Welcome to UserAuth & Login App')}</Text>
+
       <TouchableOpacity
         style={[styles.button, { backgroundColor: theme.primary }]}
         onPress={() => navigation.navigate('Register')} > 
         <Text style={[styles.buttonText, { color: theme.text }]}>{t('Register User')}</Text>
+      </TouchableOpacity>
+
+      {/*  Verify Email Button */}
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: theme.primary }]}
+        onPress={() =>
+          navigation.navigate({ name: 'VerifyEmail', params: { email: '', mobile: '', userId: '' } })
+        }>
+        <Text style={[styles.buttonText, { color: theme.text }]}>
+          {t('verifyEmail')}
+        </Text>
+      </TouchableOpacity>
+
+      {/*  Verify Mobile Button */}
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: theme.primary }]}
+        onPress={() =>
+          navigation.navigate({ name: 'VerifyMobile', params: { email: '', mobile: '', userId: '' } })
+        }>
+        <Text style={[styles.buttonText, { color: theme.text }]}>
+          {t('verifyMobile')}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity

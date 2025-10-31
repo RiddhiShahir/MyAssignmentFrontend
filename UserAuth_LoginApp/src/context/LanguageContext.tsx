@@ -7,9 +7,9 @@ import React, {
 } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import en from '../../i18n/locales/en.json';
-import hi from '../../i18n/locales/hi.json';
-import mr from '../../i18n/locales/mr.json';
+import en from '../i18n/locales/en.json';
+import hi from '../i18n/locales/hi.json';
+import mr from '../i18n/locales/mr.json';
 
 type Locale = 'en' | 'hi' | 'mr';
 type Translations = typeof en;

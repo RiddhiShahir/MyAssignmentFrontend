@@ -4,8 +4,8 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
 import { RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 type VerifyMobileProp = NativeStackNavigationProp<RootStackParamList, 'VerifyMobile'>;
 type VerifyMobileRouteProp = RouteProp<RootStackParamList, 'VerifyMobile'>;
@@ -14,6 +14,8 @@ export default function VerifyMobileScreen() {
   const navigation = useNavigation<VerifyMobileProp>();
   const route = useRoute<VerifyMobileRouteProp>();
   const { email, mobile, userId } = route.params;
+  const [mobileInput, setMobileInput] = useState<string>(mobile);
+
 
   const [otp, setOtp] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,7 +33,7 @@ export default function VerifyMobileScreen() {
 
   const handleVerifyMobile = async () => {
     if (!otp.trim()) {
-      return Alert.alert(t('error1'), t('otpRequired'));
+      return Alert.alert(t('error'), t('otpRequired'));
     }
     setLoading(true);
     try {
@@ -65,8 +67,8 @@ export default function VerifyMobileScreen() {
   const handleResend = async () => {
     setLoading(true);
     try {
-      console.log('Sending resend OTP request:', { mobile });
-      await axios.post('http://10.0.2.2:5017/api/auth/requestotp', { mobile });
+      console.log('Sending resend OTP request:', { mobileInput });
+      await axios.post('http://10.0.2.2:5017/api/auth/requestotp', { mobile: mobileInput });
       setResendCooldown(60);
       Alert.alert(t('resendSuccess'), t('resendMessage'));
     } catch (error: any) {
@@ -92,17 +94,28 @@ export default function VerifyMobileScreen() {
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>{t('verifyMobile')}</Text>
-      <Text style={[styles.subtitle,{color: theme.text}]}>{t('mobile')}: {mobile}</Text>
-      <Text style={[styles.subtitle,{color: theme.text}]}>{t('instruction')}</Text>
 
-      <TextInput
-        placeholder={t('otpPlaceholder')}
-        style={[styles.input,{color:theme.text}]}
-        value={otp}
-        onChangeText={setOtp}
-        keyboardType="numeric"
-        maxLength={6}
-      />
+
+          {/* Mobile Input */}
+<TextInput
+  placeholder={t('mobile')}
+  style={[styles.input, { backgroundColor: theme.input }]}
+  value={mobileInput}
+  onChangeText={setMobileInput}
+  keyboardType="phone-pad"
+  maxLength={10}
+/>
+
+      
+            {/* Otp Input */}
+            <TextInput
+              placeholder={t('otpRequired')}
+              style={[styles.input, { backgroundColor: theme.input}]}
+              value={otp}
+              onChangeText={setOtp}
+              keyboardType="numeric"
+              maxLength={6}
+            />
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}

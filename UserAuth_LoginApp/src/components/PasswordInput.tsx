@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from '../context/ThemesContext';
 
 interface PasswordInputProps {
   placeholder: string;
@@ -18,6 +19,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   iconColor,
 }) => {
   const [secureText, setSecureText] = useState(true);
+  const {theme} = useTheme();
 
   return (
     <View style={[styles.container, style]}>
@@ -28,7 +30,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         secureTextEntry={secureText}
         style={styles.input}
         autoCapitalize="none"
-        placeholderTextColor="#999"
       />
       <TouchableOpacity
         style={styles.iconContainer}
@@ -38,7 +39,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         <Icon
           name={secureText ? 'eye-off-outline' : 'eye-outline'}
           size={22}
-          //color="#666"
           color={iconColor || '#666'}
         />
       </TouchableOpacity>

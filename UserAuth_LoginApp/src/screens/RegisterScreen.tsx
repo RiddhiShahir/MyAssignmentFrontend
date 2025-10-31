@@ -4,8 +4,8 @@ import axios from 'axios';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 import PasswordInput from './../components/PasswordInput';
 
 
@@ -261,3 +261,4 @@ const styles = StyleSheet.create({
   },
   backText: {fontSize: 16,},
 });
+

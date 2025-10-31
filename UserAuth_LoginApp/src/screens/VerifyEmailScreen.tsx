@@ -4,8 +4,8 @@ import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import axios from 'axios';
 import { RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 type VerifyEmailProp = NativeStackNavigationProp<RootStackParamList, 'VerifyEmail'>;
 type VerifyEmailRouteProp = RouteProp<RootStackParamList, 'VerifyEmail'>;
@@ -13,8 +13,10 @@ type VerifyEmailRouteProp = RouteProp<RootStackParamList, 'VerifyEmail'>;
 export default function VerifyEmailScreen() {
   const navigation = useNavigation<VerifyEmailProp>();
   const route = useRoute<VerifyEmailRouteProp>();
-  const { email, mobile, userId } = route.params;
+  //const { email, mobile, userId } = route.params;
+  const { email: initialEmail, mobile, userId } = route.params;
 
+  const [email, setEmail] = useState<string>(initialEmail || '');
   const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [resendCooldown, setResendCooldown] = useState<number>(0);
@@ -33,10 +35,11 @@ export default function VerifyEmailScreen() {
     if (!token.trim()) {
       return Alert.alert(t('verificationTokenRequired'));
     }
+
     setLoading(true);
     try {
-      console.log('Sending verify email request:', { userId, token });
-      const res = await axios.post('http://10.0.2.2:5017/api/auth/verifyemail', { userId, token });
+      console.log('Sending verify email request:', { userId, token, email });
+      const res = await axios.post('http://10.0.2.2:5017/api/auth/verifyemail', { userId, token, email });
       console.log('Verify email response:', res.data);
       if (res.status === 200) {
         Alert.alert(t('success'), res.data.message || t('emailSuccess'));
@@ -92,22 +95,27 @@ export default function VerifyEmailScreen() {
       </TouchableOpacity>
 
       <Text style={[styles.title,{color:theme.text}]}>{t('verifyEmail')}</Text>
-      <Text style={[styles.subtitle, {color:theme.text}]}>{t('email')}: {email}</Text>
-      <Text style={[styles.subtitle, {color:theme.text}]}>{t('emailVerificationTokenRequired')}</Text>
 
+      {/* <Text style={[styles.subtitle, {color:theme.text}]}>{t('email')}: {email}</Text>
+      <Text style={[styles.subtitle, {color:theme.text}]}>{t('emailVerificationTokenRequired')}</Text> */}
+
+           {/* Email Input */}
       <TextInput
-        placeholder={t('verificationToken')}
-        style={[styles.input,{color: theme.text}]}
+        placeholder={t('email')}
+        //placeholderTextColor="#999"
+        style={[styles.input, { backgroundColor: theme.input}]}
+        value={email}
+        onChangeText={setEmail}
+      />
+
+      {/* Token Input */}
+      <TextInput
+        placeholder={t('emailVerificationTokenRequired')}
+       // placeholderTextColor="#999"
+        style={[styles.input, { backgroundColor: theme.input}]}
         value={token}
         onChangeText={setToken}
       />
-
-      <TouchableOpacity
-        style={[styles.button,{ backgroundColor: theme.primary }]}
-        onPress={handleVerifyEmail}
-        disabled={loading}>
-        <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? t('verifying') : t('verifyEmailNow')}</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button,{ backgroundColor: theme.primary }]}
@@ -117,6 +125,14 @@ export default function VerifyEmailScreen() {
           {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : t('resendVerificationLink')}
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button,{ backgroundColor: theme.primary }]}
+        onPress={handleVerifyEmail}
+        disabled={loading}>
+        <Text style={[styles.buttonText, { color: theme.text }]}>{loading ? t('verifying') : t('verifyEmailNow')}</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }

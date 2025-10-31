@@ -67,8 +67,7 @@
     "resendCooldown": "Resend in seconds",
     "success": "Success",
     "mobileSuccessMessage": "Mobile number verified successfully!",
-    "error1": "Error",
-    "otpRequired": "Please enter the OTP.",
+    "otpRequired": "Please enter the OTP sent to your mobile.",
     "errorMessage1": "Mobile verification failed. Please check the OTP and try again.",
     "resendSuccess": "Success",
     "resendMessage": "OTP resent to your mobile.",
@@ -83,7 +82,7 @@
     "emailError": "Email verification failed. Please check the token and try again.",
     "emailResendSuccess":"Verification link resent to your email.",
     "emailResendError": "Failed to resend verification link. Please try again.",
-    "emailVerificationTokenRequired": "Enter the verification token from your email:",
+    "emailVerificationTokenRequired": "Enter the verification token from your email",
     "verificationToken": "Verification Token",
     "resendVerificationLink": "Resend Verification Link",
     "verifyEmailNow": "Verify Email Now",
@@ -97,6 +96,7 @@
     "loginCredRequired": "Please enter both email and password.",
     "LoginSuccess":"Login successful!",
     "LoginFailed":"Login failed. Please check your credentials and try again.",
+    "resendtoken":"Resend Token",
 
     "invalidMobileNumber":"Please enter a valid 10-digit mobile number.",
     "otpSent":"OTP sent to your mobile.",
@@ -134,5 +134,7 @@
     "failedToResetPassword":"Failed to reset password.",
     "enterToken":"Enter Token",
     "newPassword":"New Password",
-    "resetting":"Resetting..."
+    "resetting":"Resetting...",
+    "userIdMissing":"User Id Missing"
+
 }

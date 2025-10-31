@@ -65,7 +65,6 @@
     "resendCooldown": " सेकंड में पुनः भेजें",
     "success": "सफलता",
     "mobileSuccessMessage": "मोबाइल नंबर सफलतापूर्वक सत्यापित!",
-    "error1": "त्रुटि",
     "otpRequired": "कृपया ओटीपी दर्ज करें।",
     "errorMessage1": "मोबाइल सत्यापन विफल। कृपया ओटीपी की जांच करें और पुनः प्रयास करें।",
     "resendSuccess": "सफलता",
@@ -95,6 +94,7 @@
     "error": "त्रुटि",
     "loginCredRequired": "कृपया ईमेल और पासवर्ड दोनों दर्ज करें।",
     "LoginFailed": "लॉगिन विफल।",
+    "resendtoken":"टोकन पुनः भेजें",
     "LoginSuccess": "लॉगिन सफल!",
 
     "invalidMobileNumber":"कृपया एक वैध 10-अंक का मोबाइल नंबर दर्ज करें।",
@@ -133,6 +133,9 @@
     "failedToResetPassword":"पासवर्ड रीसेट करने में विफल।",
     "enterToken":"टोकन दर्ज करें",
     "newPassword":"नया पासवर्ड",
-    "resetting":"रीसेट हो रहा है..."
+    "resetting":"रीसेट हो रहा है...",
+    "userIdMissing":"उपयोगकर्ता आईडी गायब है।"
+
+   
 
 }

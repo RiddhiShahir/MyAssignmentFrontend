@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
-import { useTheme } from './context/ThemesContext';
-import { useLanguage } from './context/LanguageContext';
+import { useTheme } from '../context/ThemesContext';
+import { useLanguage } from '../context/LanguageContext';
 
 
 type DashboardProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
@@ -86,7 +86,7 @@ const handleLogout = async () => {
           await AsyncStorage.removeItem('userId');
           navigation.reset({
             index: 0,
-            routes: [{ name: 'LoginOptions' }],
+            routes: [{ name: 'Home' }],
           });
         },
       },

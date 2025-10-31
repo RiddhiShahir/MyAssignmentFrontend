@@ -17,8 +17,8 @@ import LoginViaMobileScreen from './src/screens/LoginViaMobileScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
-import { ThemeProvider } from './src/screens/context/ThemesContext';
-import { LanguageProvider } from './src/screens/context/LanguageContext';
+import { ThemeProvider } from './src/context/ThemesContext';
+import { LanguageProvider } from './src/context/LanguageContext';
 
 
 export type RootStackParamList = {
